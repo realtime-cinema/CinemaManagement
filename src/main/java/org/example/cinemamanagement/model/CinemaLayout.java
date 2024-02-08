@@ -1,0 +1,38 @@
+package org.example.cinemamanagement.model;
+
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+
+import java.util.Set;
+import java.util.UUID;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "cinema_layout")
+public class CinemaLayout {
+    @ManyToMany(mappedBy = "cinemaLayouts")
+    Set<Cinema> cinemas;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "cinemaLayout")
+    Set<CinemaRoom> cinemaRooms;
+
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
+
+    @Column(name = "x_index")
+    private Integer x_index;
+
+    @Column(name = "y_index")
+    private Integer y_index;
+}
