@@ -1,6 +1,7 @@
 package org.example.cinemamanagement.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -18,11 +19,14 @@ import java.util.UUID;
 @Entity
 @Table(name = "cinema_layout")
 public class CinemaLayout {
+    @JsonIgnore
     @ManyToMany(mappedBy = "cinemaLayouts")
-    Set<Cinema> cinemas;
+    List<Cinema> cinemas;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "cinemaLayout")
-    Set<CinemaRoom> cinemaRooms;
+    List<CinemaRoom> cinemaRooms;
+
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -35,4 +39,6 @@ public class CinemaLayout {
 
     @Column(name = "y_index")
     private Integer y_index;
+
+
 }

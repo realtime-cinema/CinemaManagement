@@ -23,7 +23,9 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
-                .authorizeHttpRequests(req -> req.requestMatchers("/api/auth/**").permitAll()
+                .authorizeHttpRequests(req -> req
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/test/**").permitAll()
                         .requestMatchers("/api/manager/**").hasRole(Role.MANAGER_ADMIN.name())
                         .requestMatchers("/api/owner/**").hasRole(Role.OWNER.name())
                         .anyRequest().authenticated())

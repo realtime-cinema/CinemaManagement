@@ -1,30 +1,41 @@
 package org.example.cinemamanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "cinema")
 public class Cinema {
+
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "cinema_layout_and_cinema_relationship",
             joinColumns = @JoinColumn(name = "cinema_id"),
             inverseJoinColumns = @JoinColumn(name = "cinema_layout_id"))
-    Set<CinemaLayout> cinemaLayouts;
+    List<CinemaLayout> cinemaLayouts;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    Set<CinemaRoom> cinemaRooms;
+    List<CinemaRoom> cinemaRooms;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "cinema_manager",
+            joinColumns = @JoinColumn(name = "cinema_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    List<User> cinemaManagers;
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -37,4 +48,11 @@ public class Cinema {
 
     @Column(name = "name")
     private String name;
+
+    public void addUser(User user) {
+        if (this.cinemaManagers == null) {
+            this.cinemaManagers = new ArrayList<>();
+        }
+        this.cinemaManagers.add(user);
+    }
 }
