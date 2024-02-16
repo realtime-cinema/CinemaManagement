@@ -35,10 +35,10 @@ public class CinemaLayout {
     private UUID id;
 
     @Column(name = "x_index")
-    private Integer x_index;
+    private Integer xIndex;
 
     @Column(name = "y_index")
-    private Integer y_index;
+    private Integer yIndex;
 
 
 }

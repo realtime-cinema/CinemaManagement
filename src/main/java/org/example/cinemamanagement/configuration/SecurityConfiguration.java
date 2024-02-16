@@ -28,6 +28,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/test/**").permitAll()
                         .requestMatchers("/api/manager/**").hasRole(Role.MANAGER_ADMIN.name())
                         .requestMatchers("/api/owner/**").hasRole(Role.OWNER.name())
+                        .requestMatchers("/api/cinema/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

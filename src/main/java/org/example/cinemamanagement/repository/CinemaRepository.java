@@ -11,6 +11,4 @@ import java.util.UUID;
 @Repository
 public interface CinemaRepository extends JpaRepository<Cinema, UUID> {
     public Optional<Cinema> findById(UUID id);
-
-    public List<Cinema> findAll();
 }

@@ -1,3 +1,5 @@
+-- create database cinema_management;
+-- use cinema_management; 
 -- create table users  (
 -- 	id binary(16) primary key,
 --     first_name varchar(50) not null,
@@ -13,6 +15,12 @@
 --     name varchar(50) not null
 -- );
 
+-- create table cinema_layout(
+-- 	id binary(16) primary key,
+--     x_index int not null,
+--     y_index int not null
+-- );
+
 -- create table cinema_room(
 -- 	id binary(16) key,
 --     cinema_id binary(16) not null,
@@ -22,11 +30,7 @@
 --     foreign key(cinema_layout_id) references cinema_layout(id)
 -- );
 
--- create table cinema_layout(
--- 	id binary(16) primary key,
---     x_index int not null,
---     y_index int not null
--- );
+
 
 -- create table cinema_layout_and_cinema_relationship(
 -- 	cinema_layout_id binary(16) not null,
@@ -97,3 +101,5 @@
 --     foreign key (view_type_id) references view_type(id),
 --     foreign key (translate_type_id) references translate_type(id),
 --     foreign key (dest_id) references cinema_room(id)
+-- );
+

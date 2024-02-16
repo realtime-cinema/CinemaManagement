@@ -12,11 +12,5 @@ class CinemaManagementApplicationTests {
     void contextLoads() {
     }
 
-    @Test
-    void getUser() {
-        
-        UserRepository userRepository = null;
-        System.out.println(userRepository.findUserByEmail("user"));
-    }
 
 }
