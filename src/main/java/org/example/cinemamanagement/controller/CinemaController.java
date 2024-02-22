@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/cinema")
+@RequestMapping("/api/v1/cinemas")
 public class CinemaController {
 
     CinemaService cinemaService;
@@ -27,23 +27,21 @@ public class CinemaController {
         this.cinemaManagerService = cinemaManagerService;
     }
 
-    @GetMapping("/get-all-cinema")
+    @GetMapping
     public ResponseEntity<List<CinemaDTO>> getAllCinema() {
         return ResponseEntity.ok(cinemaService.getAllCinema());
     }
 
 
-    @GetMapping("/get-cinema/{id}")
-    public ResponseEntity<CinemaDTO> getCinema(@PathVariable UUID id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<CinemaDTO> getCinema(@PathVariable(name = "id") UUID id) {
         CinemaDTO cinemaDTO = cinemaService.getCinema(id);
-        if (cinemaDTO == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+
         return ResponseEntity.ok(cinemaDTO);
     }
 
 
-    @PostMapping("/add-cinema")
+    @PostMapping
     public ResponseEntity<CinemaDTO> addCinema(@RequestBody CinemaDTO cinemaDTO) {
         return ResponseEntity.ok(cinemaService.addCinema(cinemaDTO));
     }
@@ -63,9 +61,7 @@ public class CinemaController {
 
     @GetMapping("/get-all-manager-of-cinema/{cinemaID}")
     public ResponseEntity<?> getAllManager(@PathVariable UUID cinemaID) {
-        if (cinemaID == null) {
-            return ResponseEntity.badRequest().body("Id is null");
-        }
+
         return ResponseEntity.ok(cinemaManagerService.getAllCinemaManager(cinemaID));
     }
 
@@ -103,46 +99,6 @@ public class CinemaController {
         return ResponseEntity.ok(cinemaManagerDTO);
     }
 
-    @GetMapping("/get-all-layout")
-    public ResponseEntity<?> getAllLayout() {
-        return ResponseEntity.ok("All layout");
-    }
 
-    @PostMapping("/add-layout/{idCinema}")
-    public ResponseEntity<?> addLayout(@PathVariable UUID idCinema, @RequestBody CinemaLayoutDTO cinemaLayoutDTO) throws Exception {
-        if (idCinema == null) {
-            return ResponseEntity.badRequest().body("Id is null");
-        }
-        return ResponseEntity.ok(cinemaService.addCinemaLayout(idCinema, cinemaLayoutDTO));
-    }
 
-    @PutMapping("/update-layout")
-    public ResponseEntity<?> updateLayout() {
-        return ResponseEntity.ok("Layout updated");
-    }
-
-    @DeleteMapping("/delete-layout")
-    public ResponseEntity<?> deleteLayout() {
-        return ResponseEntity.ok("Layout deleted");
-    }
-
-    @GetMapping("/get-all-room")
-    public ResponseEntity<?> getAllRoom() {
-        return ResponseEntity.ok("All room");
-    }
-
-    @PostMapping("/add-room")
-    public ResponseEntity<?> addRoom() {
-        return ResponseEntity.ok("Room added");
-    }
-
-    @PutMapping("/update-room")
-    public ResponseEntity<?> updateRoom() throws Exception {
-        return ResponseEntity.ok("Room updated");
-    }
-
-    @DeleteMapping("/delete-room")
-    public ResponseEntity<?> deleteRoom() {
-        return ResponseEntity.ok("Room deleted");
-    }
 }

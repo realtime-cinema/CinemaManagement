@@ -43,10 +43,9 @@ public class CinemaServiceImpl implements CinemaService {
 
     @Override
     public CinemaDTO getCinema(UUID id) {
-        Cinema cinema = cinemaRepository.findById(id).get();
-        if (cinema == null) {
-            return null;
-        }
+        Cinema cinema = cinemaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cinema not found with id: " + id));
+
         return CinemaDTO.builder()
                 .id(cinema.getId())
                 .name(cinema.getName())
@@ -85,7 +84,7 @@ public class CinemaServiceImpl implements CinemaService {
                 .build();
     }
 
-    @Override
+/*    @Override
     @Transactional
     public CinemaLayoutDTO addCinemaLayout(UUID idCinema, CinemaLayoutDTO cinemaLayoutDTO) {
         CinemaLayout cinemaLayout = CinemaLayout.builder()
@@ -106,27 +105,75 @@ public class CinemaServiceImpl implements CinemaService {
 
     @Override
     public List<CinemaLayoutDTO> getAllCinemaLayout() {
-        return null;
+        return cinemaLayoutRepository.findAll()
+                .stream()
+                .map(cinemaLayout ->
+                        CinemaLayoutDTO.builder()
+                                .id(cinemaLayout.getId())
+                                .xIndex(cinemaLayout.getXIndex())
+                                .yIndex(cinemaLayout.getYIndex())
+                                .build()
+                )
+                .collect(Collectors.toList());
     }
 
     @Override
     public void deleteCinemaLayout(UUID id) {
-
+        cinemaLayoutRepository.deleteById(id);
     }
 
     @Override
     public CinemaLayoutDTO updateCinemaLayout(CinemaLayoutDTO cinemaLayoutDTO) {
-        return null;
+        Optional<CinemaLayout> optionalCinemaLayout = cinemaLayoutRepository.findById(cinemaLayoutDTO.getId());
+        if (optionalCinemaLayout.isPresent()) {
+            CinemaLayout cinemaLayout = optionalCinemaLayout.get();
+            cinemaLayout.setXIndex(cinemaLayoutDTO.getXIndex());
+            cinemaLayout.setYIndex(cinemaLayoutDTO.getYIndex());
+            return CinemaLayoutDTO.builder()
+                    .id(cinemaLayoutRepository.save(cinemaLayout).getId())
+                    .xIndex(cinemaLayout.getXIndex())
+                    .yIndex(cinemaLayout.getYIndex())
+                    .build();
+        } else {
+            throw new RuntimeException("Not found CinemaLayoutService with ID: " + cinemaLayoutDTO.getId());
+        }
+
     }
 
     @Override
     public CinemaLayoutDTO getCinemaLayout(UUID id) {
-        return null;
+        Optional<CinemaLayout> optionalCinemaLayout = cinemaLayoutRepository.findById(id);
+        if (optionalCinemaLayout.isPresent()) {
+            CinemaLayout cinemaLayout = optionalCinemaLayout.get();
+            return CinemaLayoutDTO.builder()
+                    .id(cinemaLayout.getId())
+                    .xIndex(cinemaLayout.getXIndex())
+                    .yIndex(cinemaLayout.getYIndex())
+                    .build();
+        } else {
+            throw new RuntimeException("Not found CinemaLayoutService with ID: " + id);
+        }
+
     }
 
     @Override
     public List<CinemaLayoutDTO> getCinemaLayoutByCinemaId(UUID id) {
-        return null;
+        Optional<Cinema> optionalCinema = cinemaRepository.findById(id);
+        if (optionalCinema.isPresent()) {
+            Cinema cinema = optionalCinema.get();
+            return cinema.getCinemaLayouts().stream()
+                    .map(cinemaLayout ->
+                            CinemaLayoutDTO.builder()
+                                    .id(cinemaLayout.getId())
+                                    .xIndex(cinemaLayout.getXIndex())
+                                    .yIndex(cinemaLayout.getYIndex())
+                                    .build()
+                    )
+                    .collect(Collectors.toList());
+        } else {
+            throw new RuntimeException("Not found CinemaID with ID: " + id);
+        }
+
     }
 
     @Override
@@ -137,6 +184,6 @@ public class CinemaServiceImpl implements CinemaService {
     @Override
     public CinemaRoomDTO addCinemaRoom(CinemaRoomDTO cinemaRoomDTO) {
         return null;
-    }
+    }*/
 }
 

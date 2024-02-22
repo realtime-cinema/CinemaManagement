@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/cinema")
+@RequestMapping("/api/v1/cinemasdsađá")
 public class ManagerCinemaController {
 
     CinemaService cinemaService;
