@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/test/**").permitAll()
                         .requestMatchers("/api/manager/**").hasRole(Role.MANAGER_ADMIN.name())
                         .requestMatchers("/api/owner/**").hasRole(Role.OWNER.name())
-                        .requestMatchers("/api/cinema/**").permitAll()
+                        .requestMatchers("/api/v1/cinemas/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
@@ -37,3 +38,4 @@ public class SecurityConfiguration {
     }
 
 }
+

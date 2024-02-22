@@ -33,7 +33,7 @@ public class TestController {
 
     @GetMapping("/getalluser/{id}")
     public ResponseEntity<?> GetAllUser(@PathVariable UUID id) {
-        return ResponseEntity.ok(cinemaManagerService.getAllCinemaManager(id));
+        return null;
     }
 
     @PostMapping("/addcinema")
@@ -67,11 +67,11 @@ public class TestController {
         cinemaService.deleteCinema(id);
     }
 
-    @GetMapping("/get-all-manager/{id}")
+   /* @GetMapping("/get-all-manager/{id}")
     public ResponseEntity<?> getAllManager(@PathVariable UUID id) {
         if(id == null) {
             return ResponseEntity.badRequest().body("Id is null");
         }
         return ResponseEntity.ok(cinemaManagerService.getAllCinemaManager(id));
-    }
+    }*/
 }

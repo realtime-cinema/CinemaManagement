@@ -4,7 +4,7 @@ package org.example.cinemamanagement.request;
 import lombok.Data;
 
 @Data
-public class CinemaRequest {
+public class AddCinemaRequest {
     private String variant;
     private String name;
 }

@@ -3,8 +3,11 @@ package org.example.cinemamanagement.service;
 
 import org.example.cinemamanagement.dto.CinemaDTO;
 import org.example.cinemamanagement.dto.CinemaLayoutDTO;
+import org.example.cinemamanagement.dto.CinemaManagerDTO;
 import org.example.cinemamanagement.dto.CinemaRoomDTO;
 import org.example.cinemamanagement.model.CinemaLayout;
+import org.example.cinemamanagement.request.AddCinemaRequest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,25 +17,18 @@ public interface CinemaService {
 
     public CinemaDTO getCinema(UUID id);
 
-    public CinemaDTO addCinema(CinemaDTO cinemaDTO);
+    public CinemaDTO addCinema(AddCinemaRequest addCinemaRequest);
 
     public void deleteCinema(UUID id);
 
     public CinemaDTO updateCinema(CinemaDTO cinemaDTO);
 
-/*    public CinemaLayoutDTO addCinemaLayout(UUID idCinema, CinemaLayoutDTO cinemaLayoutDTO);
-
-    public List<CinemaLayoutDTO> getAllCinemaLayout();
-
-    public void deleteCinemaLayout(UUID id);
-
-    public CinemaLayoutDTO updateCinemaLayout(CinemaLayoutDTO cinemaLayoutDTO);
-
-    public CinemaLayoutDTO getCinemaLayout(UUID id);
+    // public CinemaLayoutDTO addCinemaLayoutIntoCinema(UUID idCinema, CinemaLayoutDTO cinemaLayoutDTO);
 
     public List<CinemaLayoutDTO> getCinemaLayoutByCinemaId(UUID id);
 
-    public List<CinemaRoomDTO> getAllCinemaRoomByCinemaId(UUID id);
+    //  public List<CinemaRoomDTO> getAllCinemaRoomByCinemaId(UUID id);
 
-    public CinemaRoomDTO addCinemaRoom(CinemaRoomDTO cinemaRoomDTO); */
+    public CinemaManagerDTO deleteCinemaManagerOutOfCinema(String emailUser, UUID idCinema);
+
 }
