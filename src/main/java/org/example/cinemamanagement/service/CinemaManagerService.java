@@ -10,14 +10,12 @@ public interface CinemaManagerService {
     public CinemaManagerDTO addCinemaManager(String emailUser, UUID idCinema);
 
     //    create some feature about cinema manager
-    public CinemaManagerDTO deleteCinemaManagerOutOfCinema(String emailUser, UUID idCinema);
 
     public void updateCinemaManager(String emailUser, UUID idCinema);
 
     public void getCinemaManager(String emailUser, UUID idCinema);
 
-    public List<CinemaManagerDTO> getAllCinemaManager(UUID idCinema);
-
+    public List<CinemaManagerDTO> getAllCinemaManagerFromCinema(UUID idCinema);
 
 }
 

@@ -1,4 +1,4 @@
-package org.example.cinemamanagement.service;
+package org.example.cinemamanagement.service.imp;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -9,6 +9,7 @@ import org.example.cinemamanagement.model.Cinema;
 import org.example.cinemamanagement.model.User;
 import org.example.cinemamanagement.repository.CinemaRepository;
 import org.example.cinemamanagement.repository.UserRepository;
+import org.example.cinemamanagement.service.CinemaManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,6 @@ public class CinemaManagerServiceImpl implements CinemaManagerService {
     @Autowired
     CinemaRepository cinemaRepository;
 
-
     @Override
     @Transactional
     public CinemaManagerDTO addCinemaManager(String emailUser, UUID idCinema) {
@@ -42,25 +42,6 @@ public class CinemaManagerServiceImpl implements CinemaManagerService {
 
     }
 
-
-    @Override
-    public CinemaManagerDTO deleteCinemaManagerOutOfCinema(String emailUser, UUID idCinema) {
-        Cinema cinema = cinemaRepository.findById(idCinema).get();
-        User user = userRepository.findUserByEmail(emailUser).get();
-        if (cinema == null || user == null) {
-            return null;
-        }
-        cinema.getCinemaManagers()
-                .remove(userRepository.findUserByEmail(emailUser)
-                        .get());
-        cinemaRepository.save(cinema);
-        return CinemaManagerDTO
-                .builder()
-                .user(user)
-                .cinemas(user.getCinemas())
-                .build();
-    }
-
     @Override
     public void updateCinemaManager(String emailUser, UUID idCinema) {
 
@@ -72,7 +53,7 @@ public class CinemaManagerServiceImpl implements CinemaManagerService {
     }
 
     @Override
-    public List<CinemaManagerDTO> getAllCinemaManager(UUID idCinema) {
+    public List<CinemaManagerDTO> getAllCinemaManagerFromCinema(UUID idCinema) {
         return cinemaRepository.findById(idCinema).get()
                 .getCinemaManagers()
                 .stream().map(
