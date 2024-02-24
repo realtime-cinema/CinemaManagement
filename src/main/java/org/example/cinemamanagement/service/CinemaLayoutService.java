@@ -10,7 +10,9 @@ public interface CinemaLayoutService {
 
     public CinemaLayoutDTO getCinemaLayout(UUID id);
 
-    public CinemaLayoutDTO updateCinemaLayout(CinemaLayoutDTO cinemaLayoutDTO);
+    public CinemaLayoutDTO addCinemaLayout(CinemaLayoutDTO cinemaLayoutDTO);
+
+    public CinemaLayoutDTO updateCinemaLayout(UUID idLayout, CinemaLayoutDTO cinemaLayoutDTO);
 
     public void deleteCinemaLayout(UUID id);
 

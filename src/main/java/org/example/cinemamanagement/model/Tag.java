@@ -22,6 +22,9 @@ public class Tag {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
+    @Column(name = "name")
+    private String name;
+
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
@@ -30,4 +33,5 @@ public class Tag {
             inverseJoinColumns = @JoinColumn(name = "film_id")
     )
     private List<Film> films;
+
 }

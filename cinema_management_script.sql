@@ -102,5 +102,5 @@ create table perform(
     foreign key (translate_type_id) references translate_type(id),
     foreign key (dest_id) references cinema_room(id)
 );
-
+alter table tag add  column  name varchar (50) NOT NULL ;
 insert into cinema (id,variant, name) values( 123,"Ha Noi", "CGV")

@@ -4,10 +4,7 @@ package org.example.cinemamanagement.service;
 import org.example.cinemamanagement.dto.CinemaDTO;
 import org.example.cinemamanagement.dto.CinemaLayoutDTO;
 import org.example.cinemamanagement.dto.CinemaManagerDTO;
-import org.example.cinemamanagement.dto.CinemaRoomDTO;
-import org.example.cinemamanagement.model.CinemaLayout;
 import org.example.cinemamanagement.request.AddCinemaRequest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;

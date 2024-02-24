@@ -1,5 +1,8 @@
 package org.example.cinemamanagement.controller;
 
+import org.example.cinemamanagement.request.AddCinemaRoomRequest;
+import org.example.cinemamanagement.service.CinemaRoomService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,14 +10,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/rooms")
 public class CinemaRoomController {
 
+    @Autowired
+    CinemaRoomService cinemaRoomService;
+
     @GetMapping
     public ResponseEntity<?> getAllRoom() {
         return ResponseEntity.ok("All room");
     }
 
     @PostMapping
-    public ResponseEntity<?> addRoom() {
-        return ResponseEntity.ok("Room added");
+    public ResponseEntity<?> addRoom(@RequestBody AddCinemaRoomRequest addCinemaRoomRequest) {
+        return ResponseEntity.ok(cinemaRoomService
+                .addCinemaRoom(addCinemaRoomRequest));
     }
 
     @PutMapping

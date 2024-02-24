@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
         @ExceptionHandler(RuntimeException.class)
         @ResponseStatus(value = HttpStatus.NOT_FOUND)
         public ErrorMessage handleNotFoundException(Exception ex) {

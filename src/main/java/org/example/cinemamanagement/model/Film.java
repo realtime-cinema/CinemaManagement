@@ -39,6 +39,7 @@ public class Film {
     private Integer restrictAge;
 
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "film")
     private List<Comment> comments;
 

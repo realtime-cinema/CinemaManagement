@@ -1,16 +1,9 @@
 package org.example.cinemamanagement.controller;
 
-import org.example.cinemamanagement.dto.CinemaDTO;
-import org.example.cinemamanagement.dto.CinemaManagerDTO;
-import org.example.cinemamanagement.request.AddAndDeleteManagerRequest;
-import org.example.cinemamanagement.service.CinemaService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.UUID;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/managers")
@@ -49,4 +42,9 @@ public class ManagerCinemaController {
         }
         return ResponseEntity.ok(cinemaManagerDTO);
     }*/
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllManager() {
+        System.out.println("Hello world");
+        return ResponseEntity.ok("All manager");
+    }
 }
