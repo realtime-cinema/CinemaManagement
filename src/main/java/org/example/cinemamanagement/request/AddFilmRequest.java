@@ -1,0 +1,21 @@
+package org.example.cinemamanagement.request;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import org.example.cinemamanagement.dto.TagDTO;
+import org.example.cinemamanagement.model.Tag;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+@Data
+public class AddFilmRequest {
+    private String title;
+    private String director;
+    @JsonProperty("release_date")
+    private Timestamp releaseDate;
+    private String country;
+    @JsonProperty("restrict_age")
+    private Integer restrictAge;
+    private List<TagDTO> tags;
+}
