@@ -28,8 +28,23 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public FilmDTO getFilmById(Long id) {
-        return null;
+    public FilmDTO getFilmById(UUID id) {
+        Film film =  filmRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Film not found"));
+        return FilmDTO.builder()
+                .id(film.getId())
+                .title(film.getTitle())
+                .country(film.getCountry())
+                .director(film.getDirector())
+                .releaseDate(film.getReleaseDate())
+                .restrictAge(film.getRestrictAge())
+                .tags(film.getTags().stream()
+                        .map(tag -> TagDTO.builder()
+                                .id(tag.getId())
+                                .name(tag.getName())
+                                .build()
+                        ).collect(Collectors.toList()))
+                .build();
     }
 
     @Override
@@ -79,16 +94,72 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public FilmDTO updateFilm(FilmDTO filmDTO) {
-        return null;
+        Film film = filmRepository.findById(filmDTO.getId())
+                .orElseThrow(() -> new RuntimeException("Film not found"));
+        if (filmDTO.getTitle() != null)
+            film.setTitle(filmDTO.getTitle());
+
+        if (filmDTO.getDirector() != null)
+            film.setDirector(filmDTO.getDirector());
+
+        if (filmDTO.getCountry() != null)
+            film.setCountry(filmDTO.getCountry());
+
+        if (filmDTO.getRestrictAge() != null)
+            film.setRestrictAge(filmDTO.getRestrictAge());
+
+        if (filmDTO.getReleaseDate() != null)
+            film.setReleaseDate(filmDTO.getReleaseDate());
+
+        if (filmDTO.getTags() != null) {
+            List<Tag> tags = filmDTO.getTags().stream()
+                            .map(tagDTO -> Tag.builder()
+                                    .id(tagDTO.getId())
+                                    .name(tagDTO.getName())
+                                    .build()
+                            )
+                            .collect(Collectors.toList());
+            film.setTags(tags);
+        }
+        filmRepository.save(film);
+        return filmDTO.builder()
+                .id(film.getId())
+                .title(film.getTitle())
+                .country(film.getCountry())
+                .director(film.getDirector())
+                .releaseDate(film.getReleaseDate())
+                .restrictAge(film.getRestrictAge())
+                .tags(film.getTags().stream()
+                        .map(tag -> TagDTO.builder()
+                                .id(tag.getId())
+                                .name(tag.getName())
+                                .build()
+                     ).collect(Collectors.toList()))
+                .build();
     }
 
     @Override
     public void deleteFilm(UUID id) {
-
+        filmRepository.deleteById(id);
     }
 
     @Override
     public List<FilmDTO> getAllFilms() {
-        return null;
+        return filmRepository.findAll().stream()
+                .map(film -> FilmDTO.builder()
+                        .id(film.getId())
+                        .title(film.getTitle())
+                        .country(film.getCountry())
+                        .director(film.getDirector())
+                        .releaseDate(film.getReleaseDate())
+                        .restrictAge(film.getRestrictAge())
+                        .tags(film.getTags().stream()
+                                .map(tag -> TagDTO.builder()
+                                        .id(tag.getId())
+                                        .name(tag.getName())
+                                        .build()
+                                ).collect(Collectors.toList()))
+                        .build()
+                ).collect(Collectors.toList());
     }
 }

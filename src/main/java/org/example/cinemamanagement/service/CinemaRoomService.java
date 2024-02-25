@@ -13,7 +13,7 @@ public interface CinemaRoomService {
 
     public CinemaRoomDTO addCinemaRoom(AddCinemaRoomRequest addCinemaRoomRequest);
 
-    public CinemaRoomDTO updateCinemaRoom(CinemaRoomDTO cinemaRoomDTO);
+    public void updateCinemaRoom(CinemaRoomDTO cinemaRoomDTO);
 
     public void deleteCinemaRoom(UUID id);
 

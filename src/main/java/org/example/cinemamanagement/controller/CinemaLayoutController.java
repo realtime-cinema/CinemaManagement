@@ -32,7 +32,7 @@ public class CinemaLayoutController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateLayout(@PathVariable UUID id,@RequestBody CinemaLayoutDTO cinemaLayoutDTO) {
+    public ResponseEntity<?> updateLayout(@PathVariable UUID id, @RequestBody CinemaLayoutDTO cinemaLayoutDTO) {
         return ResponseEntity.ok(cinemaLayoutService.updateCinemaLayout(id,cinemaLayoutDTO));
     }
 

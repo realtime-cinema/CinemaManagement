@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CinemaRoomServiceImpl implements CinemaRoomService {
@@ -37,13 +38,43 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
 
     @Override
     public List<CinemaRoomDTO> getAllCinemaRooms() {
-        return null;
+        return cinemaRoomRepository.findAll().stream()
+                .map(cinemaRoom -> CinemaRoomDTO.builder()
+                        .id(cinemaRoom.getId())
+                        .name(cinemaRoom.getName())
+                        .cinemaDTO(CinemaDTO.builder()
+                                .id(cinemaRoom.getCinema().getId())
+                                .name(cinemaRoom.getCinema().getName())
+                                .variant(cinemaRoom.getCinema().getVariant())
+                                .build())
+                        .cinemaLayoutDTO(CinemaLayoutDTO.builder()
+                                .id(cinemaRoom.getCinemaLayout().getId())
+                                .xIndex(cinemaRoom.getCinemaLayout().getXIndex())
+                                .yIndex(cinemaRoom.getCinemaLayout().getYIndex())
+                                .build())
+                        .build()
+                ).collect(Collectors.toList());
     }
 
 
     @Override
     public CinemaRoomDTO getCinemaRoomById(UUID id) {
-        return null;
+        CinemaRoom cinemaRoom = cinemaRoomRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("CinemaRoom not found"));
+        return  CinemaRoomDTO.builder()
+                .id(cinemaRoom.getId())
+                .name(cinemaRoom.getName())
+                .cinemaDTO(CinemaDTO.builder()
+                        .id(cinemaRoom.getCinema().getId())
+                        .name(cinemaRoom.getCinema().getName())
+                        .variant(cinemaRoom.getCinema().getVariant())
+                        .build())
+                .cinemaLayoutDTO(CinemaLayoutDTO.builder()
+                        .id(cinemaRoom.getCinemaLayout().getId())
+                        .xIndex(cinemaRoom.getCinemaLayout().getXIndex())
+                        .yIndex(cinemaRoom.getCinemaLayout().getYIndex())
+                        .build())
+                .build();
     }
 
     @Override
@@ -86,12 +117,37 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
     }
 
     @Override
-    public CinemaRoomDTO updateCinemaRoom(CinemaRoomDTO cinemaRoomDTO) {
-        return null;
+    public void updateCinemaRoom(CinemaRoomDTO cinemaRoomDTO) {
+        CinemaRoom cinemaRoom = cinemaRoomRepository.findById(cinemaRoomDTO.getId())
+                .orElseThrow(() -> new RuntimeException("CinemaRoom not found"));
+        if (cinemaRoomDTO.getName() != null)
+            cinemaRoom.setName(cinemaRoomDTO.getName());
+
+        if (cinemaRoomDTO.getCinemaDTO() != null) {
+            Cinema cinema = new Cinema();
+            cinema.builder()
+                    .id(cinemaRoomDTO.getCinemaDTO().getId())
+                    .variant(cinemaRoomDTO.getCinemaDTO().getVariant())
+                    .name(cinemaRoomDTO.getCinemaDTO().getName())
+                    .build();
+            cinemaRoom.setCinema(cinema);
+        }
+
+        if (cinemaRoomDTO.getCinemaLayoutDTO() != null) {
+            CinemaLayout cinemaLayout = new CinemaLayout();
+            cinemaLayout.builder()
+                    .id(cinemaRoomDTO.getCinemaLayoutDTO().getId())
+                    .xIndex(cinemaRoomDTO.getCinemaLayoutDTO().getXIndex())
+                    .yIndex(cinemaRoomDTO.getCinemaLayoutDTO().getYIndex())
+                    .build();
+            cinemaRoom.setCinemaLayout(cinemaLayout);
+        }
+
+        cinemaRoomRepository.save(cinemaRoom);
     }
 
     @Override
     public void deleteCinemaRoom(UUID id) {
-
+        cinemaRoomRepository.deleteById(id);
     }
 }

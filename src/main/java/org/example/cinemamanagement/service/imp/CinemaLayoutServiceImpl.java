@@ -78,7 +78,7 @@ public class CinemaLayoutServiceImpl implements CinemaLayoutService {
         if (cinemaLayoutDTO.getYIndex() != null
                 && !cinemaLayoutDTO.getYIndex().equals(layout.getYIndex()))
             layout.setYIndex(cinemaLayoutDTO.getYIndex());
-
+        cinemaLayoutRepository.save(layout);
         return CinemaLayoutDTO.builder()
                 .id(idLayout)
                 .xIndex(layout.getXIndex())

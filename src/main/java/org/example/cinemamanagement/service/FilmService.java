@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface FilmService {
 
-    public FilmDTO getFilmById(Long id);
+    public FilmDTO getFilmById(UUID id);
 
     public FilmDTO addFilm(AddFilmRequest addFilmRequest);
 
