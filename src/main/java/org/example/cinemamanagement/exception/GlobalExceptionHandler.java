@@ -1,16 +1,22 @@
 package org.example.cinemamanagement.exception;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+@ControllerAdvice
 public class GlobalExceptionHandler {
-        @ExceptionHandler(RuntimeException.class)
-        @ResponseStatus(value = HttpStatus.NOT_FOUND)
-        public ErrorMessage handleNotFoundException(Exception ex) {
-            return new ErrorMessage(404, ex.getLocalizedMessage());
-        }
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public ResponseEntity<?> handleNotFoundException(RuntimeException ex) {
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .timestamp(new java.sql.Timestamp(System.currentTimeMillis()))
+                .message(ex.getLocalizedMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    }
 }
+
