@@ -1,8 +1,13 @@
 package org.example.cinemamanagement;
 
+import org.example.cinemamanagement.dto.PerformDTO;
+import org.example.cinemamanagement.mapping.PerformMapping;
+import org.example.cinemamanagement.model.*;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 //@SpringBootTest
 
@@ -12,9 +17,18 @@ class CinemaManagementApplicationTests {
 
     @Test
     void itShouldAddNumbers() {
-        System.out.println("Hello");
-        int number = Caculator.add(1, 2);
-        assertThat(number).isEqualTo(2);
+        Perform perform = Perform.builder()
+                .cinemaRoom(CinemaRoom.builder().id(UUID.randomUUID()).build())
+                .film(Film.builder().id(UUID.randomUUID()).
+                        title("The Avengers")
+                        .build())
+                .viewType(ViewType.builder().id(UUID.randomUUID()).viewType("3D").build())
+                .translateType(TranslateType.builder().id(UUID.randomUUID()).build())
+                .startTime(Timestamp.valueOf(LocalDateTime.now()))
+                .endTime(Timestamp.valueOf(LocalDateTime.now().plusHours(2)))
+                .build();
+        PerformDTO performDTO = PerformMapping.convert(perform);
+        System.out.println(performDTO);
     }
 
     class Caculator {
@@ -22,4 +36,6 @@ class CinemaManagementApplicationTests {
             return a + b;
         }
     }
+
+
 }

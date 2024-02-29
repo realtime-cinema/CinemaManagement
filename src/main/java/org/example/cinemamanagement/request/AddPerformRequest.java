@@ -1,4 +1,4 @@
-package org.example.cinemamanagement.dto;
+package org.example.cinemamanagement.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -9,22 +9,26 @@ import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-@Data
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PerformDTO {
-    private UUID id;
-    @JsonProperty("film")
-    private FilmDTO filmDTO;
+public class AddPerformRequest {
+    @JsonProperty("film_id")
+    private UUID filmId;
+
     @JsonProperty("view_type")
-    private ViewTypeDTO viewTypeDTO;
+    private String viewType;
+
     @JsonProperty("translate_type")
-    private TranslateTypeDTO translateTypeDTO;
-    @JsonProperty("cinema_room")
-    private CinemaRoomDTO cinemaRoomDTO;
+    private String translateType;
+
+    @JsonProperty("cinema_room_id")
+    private UUID cinemaRoomId;
+
     @JsonProperty("start_time")
     private Timestamp startTime;
+
     @JsonProperty("end_time")
     private Timestamp endTime;
 }

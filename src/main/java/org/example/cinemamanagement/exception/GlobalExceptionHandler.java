@@ -1,5 +1,6 @@
 package org.example.cinemamanagement.exception;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -12,5 +13,4 @@ public class GlobalExceptionHandler {
         public ErrorMessage handleNotFoundException(Exception ex) {
             return new ErrorMessage(404, ex.getLocalizedMessage());
         }
-
 }

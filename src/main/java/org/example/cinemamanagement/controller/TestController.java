@@ -74,4 +74,10 @@ public class TestController {
         }
         return ResponseEntity.ok(cinemaManagerService.getAllCinemaManager(id));
     }*/
+
+    @GetMapping("/test")
+    public void test()
+    {
+        throw new RuntimeException("Test exception");
+    }
 }

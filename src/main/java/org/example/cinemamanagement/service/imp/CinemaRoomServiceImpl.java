@@ -144,6 +144,7 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
         }
 
         cinemaRoomRepository.save(cinemaRoom);
+
     }
 
     @Override

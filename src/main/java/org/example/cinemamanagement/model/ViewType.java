@@ -28,4 +28,7 @@ public class ViewType {
     @OneToMany(mappedBy = "viewType", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Perform> performs;
 
+    @Column(name = "view_type")
+    private String viewType;
+
 }
