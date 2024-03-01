@@ -3,6 +3,7 @@ package org.example.cinemamanagement.service.imp;
 import org.example.cinemamanagement.dto.CinemaDTO;
 import org.example.cinemamanagement.dto.CinemaLayoutDTO;
 import org.example.cinemamanagement.dto.CinemaRoomDTO;
+import org.example.cinemamanagement.mapping.CinemaRoomMapping;
 import org.example.cinemamanagement.model.Cinema;
 import org.example.cinemamanagement.model.CinemaLayout;
 import org.example.cinemamanagement.model.CinemaRoom;
@@ -39,21 +40,9 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
     @Override
     public List<CinemaRoomDTO> getAllCinemaRooms() {
         return cinemaRoomRepository.findAll().stream()
-                .map(cinemaRoom -> CinemaRoomDTO.builder()
-                        .id(cinemaRoom.getId())
-                        .name(cinemaRoom.getName())
-                        .cinemaDTO(CinemaDTO.builder()
-                                .id(cinemaRoom.getCinema().getId())
-                                .name(cinemaRoom.getCinema().getName())
-                                .variant(cinemaRoom.getCinema().getVariant())
-                                .build())
-                        .cinemaLayoutDTO(CinemaLayoutDTO.builder()
-                                .id(cinemaRoom.getCinemaLayout().getId())
-                                .xIndex(cinemaRoom.getCinemaLayout().getXIndex())
-                                .yIndex(cinemaRoom.getCinemaLayout().getYIndex())
-                                .build())
-                        .build()
-                ).collect(Collectors.toList());
+                .map(CinemaRoomMapping::convert)
+                .collect(Collectors.toList());
+
     }
 
 
@@ -61,20 +50,8 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
     public CinemaRoomDTO getCinemaRoomById(UUID id) {
         CinemaRoom cinemaRoom = cinemaRoomRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("CinemaRoom not found"));
-        return  CinemaRoomDTO.builder()
-                .id(cinemaRoom.getId())
-                .name(cinemaRoom.getName())
-                .cinemaDTO(CinemaDTO.builder()
-                        .id(cinemaRoom.getCinema().getId())
-                        .name(cinemaRoom.getCinema().getName())
-                        .variant(cinemaRoom.getCinema().getVariant())
-                        .build())
-                .cinemaLayoutDTO(CinemaLayoutDTO.builder()
-                        .id(cinemaRoom.getCinemaLayout().getId())
-                        .xIndex(cinemaRoom.getCinemaLayout().getXIndex())
-                        .yIndex(cinemaRoom.getCinemaLayout().getYIndex())
-                        .build())
-                .build();
+
+        return CinemaRoomMapping.convert(cinemaRoom);
     }
 
     @Override
@@ -93,24 +70,13 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
             if (!cinema.getCinemaLayouts().contains(layout)) {
                 cinema.addCinemaLayout(layout);
             }
-            return CinemaRoomDTO.builder()
-                    .id(cinemaRoomRepository.save(CinemaRoom.builder()
-                            .cinema(cinema)
-                            .cinemaLayout(layout)
-                            .name(addCinemaRoomRequest.getName())
-                            .build()).getId())
-                    .cinemaDTO(CinemaDTO.builder()
-                            .id(cinema.getId())
-                            .name(cinema.getName())
-                            .variant(cinema.getVariant())
-                            .build())
-                    .cinemaLayoutDTO(CinemaLayoutDTO.builder()
-                            .id(layout.getId())
-                            .xIndex(layout.getXIndex())
-                            .yIndex(layout.getYIndex())
-                            .build())
+            CinemaRoom newCinemaroom = cinemaRoomRepository.save(CinemaRoom.builder()
+                    .cinema(cinema)
+                    .cinemaLayout(layout)
                     .name(addCinemaRoomRequest.getName())
-                    .build();
+                    .build());
+
+            return CinemaRoomMapping.convert(newCinemaroom);
         }
 
         throw new RuntimeException("Cinema room already exists");
@@ -144,7 +110,6 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
         }
 
         cinemaRoomRepository.save(cinemaRoom);
-
     }
 
     @Override

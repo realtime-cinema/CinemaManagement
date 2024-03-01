@@ -7,6 +7,7 @@ import org.example.cinemamanagement.repository.*;
 import org.example.cinemamanagement.request.AddPerformRequest;
 import org.example.cinemamanagement.service.PerformService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
