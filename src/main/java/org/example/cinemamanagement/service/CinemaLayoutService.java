@@ -1,6 +1,7 @@
 package org.example.cinemamanagement.service;
 
 import org.example.cinemamanagement.dto.CinemaLayoutDTO;
+import org.example.cinemamanagement.request.AddCinemaLayoutRequest;
 
 import java.util.List;
 import java.util.UUID;
@@ -10,7 +11,7 @@ public interface CinemaLayoutService {
 
     public CinemaLayoutDTO getCinemaLayout(UUID id);
 
-    public CinemaLayoutDTO addCinemaLayout(CinemaLayoutDTO cinemaLayoutDTO);
+    public CinemaLayoutDTO addCinemaLayout(AddCinemaLayoutRequest addCinemaLayoutRequest);
 
     public CinemaLayoutDTO updateCinemaLayout(UUID idLayout, CinemaLayoutDTO cinemaLayoutDTO);
 

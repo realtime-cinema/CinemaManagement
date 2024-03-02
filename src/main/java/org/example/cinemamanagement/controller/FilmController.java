@@ -1,7 +1,6 @@
 package org.example.cinemamanagement.controller;
 
 import org.example.cinemamanagement.dto.FilmDTO;
-import org.example.cinemamanagement.model.Film;
 import org.example.cinemamanagement.request.AddFilmRequest;
 import org.example.cinemamanagement.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;

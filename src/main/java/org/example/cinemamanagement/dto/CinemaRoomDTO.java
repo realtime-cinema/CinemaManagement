@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.cinemamanagement.model.Cinema;
-import org.example.cinemamanagement.model.CinemaLayout;
 
 import java.util.UUID;
 

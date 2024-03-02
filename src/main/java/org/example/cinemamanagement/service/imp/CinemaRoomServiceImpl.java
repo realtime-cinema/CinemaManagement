@@ -1,7 +1,5 @@
 package org.example.cinemamanagement.service.imp;
 
-import org.example.cinemamanagement.dto.CinemaDTO;
-import org.example.cinemamanagement.dto.CinemaLayoutDTO;
 import org.example.cinemamanagement.dto.CinemaRoomDTO;
 import org.example.cinemamanagement.mapping.CinemaRoomMapping;
 import org.example.cinemamanagement.model.Cinema;
@@ -40,18 +38,17 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
     @Override
     public List<CinemaRoomDTO> getAllCinemaRooms() {
         return cinemaRoomRepository.findAll().stream()
-                .map(CinemaRoomMapping::convert)
+                .map(CinemaRoomMapping::toDTO)
                 .collect(Collectors.toList());
 
     }
-
 
     @Override
     public CinemaRoomDTO getCinemaRoomById(UUID id) {
         CinemaRoom cinemaRoom = cinemaRoomRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("CinemaRoom not found"));
 
-        return CinemaRoomMapping.convert(cinemaRoom);
+        return CinemaRoomMapping.toDTO(cinemaRoom);
     }
 
     @Override
@@ -76,7 +73,7 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
                     .name(addCinemaRoomRequest.getName())
                     .build());
 
-            return CinemaRoomMapping.convert(newCinemaroom);
+            return CinemaRoomMapping.toDTO(newCinemaroom);
         }
 
         throw new RuntimeException("Cinema room already exists");

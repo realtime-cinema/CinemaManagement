@@ -1,14 +1,17 @@
 package org.example.cinemamanagement.service.imp;
 
 import org.example.cinemamanagement.dto.CinemaLayoutDTO;
+import org.example.cinemamanagement.mapping.CinemaLayoutMapping;
 import org.example.cinemamanagement.model.CinemaLayout;
 import org.example.cinemamanagement.repository.CinemaLayoutRepository;
+import org.example.cinemamanagement.request.AddCinemaLayoutRequest;
 import org.example.cinemamanagement.service.CinemaLayoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -22,13 +25,7 @@ public class CinemaLayoutServiceImpl implements CinemaLayoutService {
     public List<CinemaLayoutDTO> getAllCinemaLayout() {
         return cinemaLayoutRepository.findAll()
                 .stream()
-                .map(cinemaLayout ->
-                        CinemaLayoutDTO.builder()
-                                .id(cinemaLayout.getId())
-                                .xIndex(cinemaLayout.getXIndex())
-                                .yIndex(cinemaLayout.getYIndex())
-                                .build()
-                )
+                .map(CinemaLayoutMapping::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -37,32 +34,24 @@ public class CinemaLayoutServiceImpl implements CinemaLayoutService {
         CinemaLayout layout = cinemaLayoutRepository.findById(id)
                 .orElseThrow(() ->
                         new RuntimeException("Cinema layout not found with id: " + id));
-        return CinemaLayoutDTO.builder()
-                .id(layout.getId())
-                .xIndex(layout.getXIndex())
-                .yIndex(layout.getYIndex())
-                .build();
+        return CinemaLayoutMapping.toDTO(layout);
     }
 
     @Override
     @Transactional
-    public CinemaLayoutDTO addCinemaLayout(CinemaLayoutDTO cinemaLayoutDTO) {
-        cinemaLayoutRepository.findByXIndexAndYIndex(cinemaLayoutDTO.getXIndex()
-                        , cinemaLayoutDTO.getYIndex())
-                .ifPresent(layout -> {
-                    throw new RuntimeException("Cinema layout already exists with xIndex: " + layout.getXIndex() + " and yIndex: " + layout.getYIndex());
-                });
+    public CinemaLayoutDTO addCinemaLayout(AddCinemaLayoutRequest cinemaLayoutRequest) {
+        Optional<CinemaLayout> layout = cinemaLayoutRepository.findByXIndexAndYIndex(cinemaLayoutRequest.getXIndex()
+                                                                                    ,cinemaLayoutRequest.getYIndex());
+        if (layout.isPresent())
+            throw new RuntimeException("Cinema layout already exists with xIndex: " + layout.get().getXIndex() + " and yIndex: " + layout.get().getYIndex());
+        else {
+            layout.get().setXIndex(cinemaLayoutRequest.getXIndex());
+            layout.get().setYIndex(cinemaLayoutRequest.getYIndex());
+            cinemaLayoutRepository.save(layout.get());
+        }
 
-        return CinemaLayoutDTO.builder()
-                .id(cinemaLayoutRepository.save(CinemaLayout.builder()
-                        .xIndex(cinemaLayoutDTO.getXIndex())
-                        .yIndex(cinemaLayoutDTO.getYIndex())
-                        .build()).getId())
-                .xIndex(cinemaLayoutDTO.getXIndex())
-                .yIndex(cinemaLayoutDTO.getYIndex())
-                .build();
+        return CinemaLayoutMapping.toDTO(layout.get());
     }
-
 
     @Override
     @Transactional
@@ -79,11 +68,8 @@ public class CinemaLayoutServiceImpl implements CinemaLayoutService {
                 && !cinemaLayoutDTO.getYIndex().equals(layout.getYIndex()))
             layout.setYIndex(cinemaLayoutDTO.getYIndex());
         cinemaLayoutRepository.save(layout);
-        return CinemaLayoutDTO.builder()
-                .id(idLayout)
-                .xIndex(layout.getXIndex())
-                .yIndex(layout.getYIndex())
-                .build();
+
+        return CinemaLayoutMapping.toDTO(layout);
     }
 
     @Override

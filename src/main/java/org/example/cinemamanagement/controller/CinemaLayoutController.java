@@ -1,6 +1,7 @@
 package org.example.cinemamanagement.controller;
 
 import org.example.cinemamanagement.dto.CinemaLayoutDTO;
+import org.example.cinemamanagement.request.AddCinemaLayoutRequest;
 import org.example.cinemamanagement.service.CinemaLayoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,8 @@ public class CinemaLayoutController {
     }
 
     @PostMapping
-    public ResponseEntity<CinemaLayoutDTO> addLayout(@RequestBody CinemaLayoutDTO cinemaLayoutDTO) {
-        return ResponseEntity.ok(cinemaLayoutService.addCinemaLayout(cinemaLayoutDTO));
+    public ResponseEntity<CinemaLayoutDTO> addLayout(@RequestBody AddCinemaLayoutRequest cinemaLayoutRequest) {
+        return ResponseEntity.ok(cinemaLayoutService.addCinemaLayout(cinemaLayoutRequest));
     }
 
     @PutMapping("/{id}")

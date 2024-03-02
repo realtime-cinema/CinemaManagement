@@ -27,7 +27,7 @@ class CinemaManagementApplicationTests {
                 .startTime(Timestamp.valueOf(LocalDateTime.now()))
                 .endTime(Timestamp.valueOf(LocalDateTime.now().plusHours(2)))
                 .build();
-        PerformDTO performDTO = PerformMapping.convert(perform);
+        PerformDTO performDTO = PerformMapping.toDTO(perform);
         System.out.println(performDTO);
     }
 
