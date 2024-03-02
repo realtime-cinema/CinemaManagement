@@ -3,9 +3,9 @@ package org.example.cinemamanagement.service.imp;
 import org.example.cinemamanagement.dto.CinemaDTO;
 import org.example.cinemamanagement.dto.CinemaLayoutDTO;
 import org.example.cinemamanagement.dto.CinemaManagerDTO;
-import org.example.cinemamanagement.dto.CinemaRoomDTO;
+import org.example.cinemamanagement.mapping.CinemaLayoutMapping;
+import org.example.cinemamanagement.mapping.CinemaMapping;
 import org.example.cinemamanagement.model.Cinema;
-import org.example.cinemamanagement.model.CinemaLayout;
 import org.example.cinemamanagement.model.User;
 import org.example.cinemamanagement.repository.CinemaLayoutRepository;
 import org.example.cinemamanagement.repository.CinemaRepository;
@@ -14,10 +14,8 @@ import org.example.cinemamanagement.request.AddCinemaRequest;
 import org.example.cinemamanagement.service.CinemaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -37,13 +35,7 @@ public class CinemaServiceImpl implements CinemaService {
     public List<CinemaDTO> getAllCinema() {
         return cinemaRepository.findAll()
                 .stream()
-                .map(cinema ->
-                        CinemaDTO.builder()
-                                .id(cinema.getId())
-                                .name(cinema.getName())
-                                .variant(cinema.getVariant())
-                                .build()
-                )
+                .map(CinemaMapping::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -52,13 +44,10 @@ public class CinemaServiceImpl implements CinemaService {
         Cinema cinema = cinemaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cinema not found with id: " + id));
 
-        return CinemaDTO.builder()
-                .id(cinema.getId())
-                .name(cinema.getName())
-                .variant(cinema.getVariant())
-                .build();
+        return CinemaMapping.toDTO(cinema);
     }
 
+    // check
     @Override
     public CinemaDTO addCinema(AddCinemaRequest addCinemaRequest) {
         Cinema cinema = Cinema.builder()
@@ -66,11 +55,9 @@ public class CinemaServiceImpl implements CinemaService {
                 .variant(addCinemaRequest.getVariant())
                 .build();
 
-        return CinemaDTO.builder()
-                .id(cinemaRepository.save(cinema).getId())
-                .name(cinema.getName())
-                .variant(cinema.getVariant())
-                .build();
+        cinemaRepository.save(cinema);
+
+        return CinemaMapping.toDTO(cinema);
     }
 
     @Override
@@ -81,11 +68,9 @@ public class CinemaServiceImpl implements CinemaService {
         cinema.setName(cinemaDTO.getName());
         cinema.setVariant(cinemaDTO.getVariant());
 
-        return CinemaDTO.builder()
-                .id(cinemaRepository.save(cinema).getId())
-                .name(cinema.getName())
-                .variant(cinema.getVariant())
-                .build();
+        cinemaRepository.save(cinema);
+
+        return CinemaMapping.toDTO(cinema);
     }
 
     @Override
@@ -93,6 +78,7 @@ public class CinemaServiceImpl implements CinemaService {
         cinemaRepository.deleteById(id);
     }
 
+    // check
     @Override
     public CinemaManagerDTO deleteCinemaManagerOutOfCinema(String emailUser, UUID idCinema) {
         Cinema cinema = cinemaRepository.findById(idCinema)
@@ -139,13 +125,7 @@ public class CinemaServiceImpl implements CinemaService {
                 .orElseThrow(() -> new RuntimeException("Cinema not found with id: " + id));
 
         return cinema.getCinemaLayouts().stream()
-                .map(cinemaLayout ->
-                                CinemaLayoutDTO.builder()
-                                        .id(cinemaLayout.getId())
-                                        .xIndex(cinemaLayout.getXIndex())
-                                        .yIndex(cinemaLayout.getYIndex())
-                                        .build()
-                )
+                .map(CinemaLayoutMapping::toDTO)
                 .collect(Collectors.toList());
     }
 

@@ -6,6 +6,7 @@ import org.example.cinemamanagement.common.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -29,7 +30,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/test/**").permitAll()
                         .requestMatchers("/api/v1/managers/**").hasRole(Role.MANAGER_ADMIN.name())
                         .requestMatchers("/api/owner/**").hasRole(Role.OWNER.name())
-//                        .requestMatchers("/api/v1/cinemas/**").permitAll()
+                        .requestMatchers("/api/v1/cinemas/**", "api/v1/layouts/**","api/v1/films/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

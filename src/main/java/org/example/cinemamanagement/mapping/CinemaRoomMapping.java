@@ -6,8 +6,13 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 
 public class CinemaRoomMapping {
-    public static CinemaRoomDTO convert(CinemaRoom cinemaRoom) {
+    public static CinemaRoomDTO toDTO(CinemaRoom cinemaRoom) {
         TypeMap<CinemaRoom, CinemaRoomDTO> typeMap = new ModelMapper().createTypeMap(CinemaRoom.class, CinemaRoomDTO.class);
         return typeMap.map(cinemaRoom);
+    }
+
+    public static CinemaRoom toEntity(CinemaRoomDTO cinemaRoomDTO) {
+        TypeMap<CinemaRoomDTO, CinemaRoom> typeMap = new ModelMapper().createTypeMap(CinemaRoomDTO.class, CinemaRoom.class);
+        return typeMap.map(cinemaRoomDTO);
     }
 }

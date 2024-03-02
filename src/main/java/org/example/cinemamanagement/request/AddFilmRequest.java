@@ -3,7 +3,6 @@ package org.example.cinemamanagement.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.example.cinemamanagement.dto.TagDTO;
-import org.example.cinemamanagement.model.Tag;
 
 import java.sql.Timestamp;
 import java.util.List;

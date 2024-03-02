@@ -7,11 +7,9 @@ import org.example.cinemamanagement.repository.*;
 import org.example.cinemamanagement.request.AddPerformRequest;
 import org.example.cinemamanagement.service.PerformService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +41,7 @@ public class PerformServiceImpl implements PerformService {
     @Override
     public List<PerformDTO> getAllPerforms() {
         return performRepository.findAll().stream().map(
-                PerformMapping::convert
+                PerformMapping::toDTO
         ).collect(Collectors.toList());
     }
 
@@ -90,6 +88,6 @@ public class PerformServiceImpl implements PerformService {
         );
 
 
-        return PerformMapping.convert(perform);
+        return PerformMapping.toDTO(perform);
     }
 }

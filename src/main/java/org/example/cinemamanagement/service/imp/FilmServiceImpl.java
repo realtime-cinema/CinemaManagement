@@ -2,6 +2,7 @@ package org.example.cinemamanagement.service.imp;
 
 import org.example.cinemamanagement.dto.FilmDTO;
 import org.example.cinemamanagement.dto.TagDTO;
+import org.example.cinemamanagement.mapping.FilmMapping;
 import org.example.cinemamanagement.model.Film;
 import org.example.cinemamanagement.model.Tag;
 import org.example.cinemamanagement.repository.FilmRepository;
@@ -31,20 +32,7 @@ public class FilmServiceImpl implements FilmService {
     public FilmDTO getFilmById(UUID id) {
         Film film =  filmRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Film not found"));
-        return FilmDTO.builder()
-                .id(film.getId())
-                .title(film.getTitle())
-                .country(film.getCountry())
-                .director(film.getDirector())
-                .releaseDate(film.getReleaseDate())
-                .restrictAge(film.getRestrictAge())
-                .tags(film.getTags().stream()
-                        .map(tag -> TagDTO.builder()
-                                .id(tag.getId())
-                                .name(tag.getName())
-                                .build()
-                        ).collect(Collectors.toList()))
-                .build();
+        return FilmMapping.toDTO(film);
     }
 
     @Override
@@ -74,21 +62,7 @@ public class FilmServiceImpl implements FilmService {
                         .build());
 
 
-        return FilmDTO
-                .builder()
-                .id(tempFilm.getId())
-                .title(tempFilm.getTitle())
-                .director(tempFilm.getDirector())
-                .country(tempFilm.getCountry())
-                .releaseDate(tempFilm.getReleaseDate())
-                .restrictAge(tempFilm.getRestrictAge())
-                .tags(tempFilm.getTags().stream().map(tag -> TagDTO
-                        .builder()
-                        .id(tag.getId())
-                        .name(tag.getName())
-                        .build())
-                        .collect(Collectors.toList()))
-                .build();
+        return FilmMapping.toDTO(tempFilm);
 
     }
 
@@ -122,20 +96,7 @@ public class FilmServiceImpl implements FilmService {
             film.setTags(tags);
         }
         filmRepository.save(film);
-        return filmDTO.builder()
-                .id(film.getId())
-                .title(film.getTitle())
-                .country(film.getCountry())
-                .director(film.getDirector())
-                .releaseDate(film.getReleaseDate())
-                .restrictAge(film.getRestrictAge())
-                .tags(film.getTags().stream()
-                        .map(tag -> TagDTO.builder()
-                                .id(tag.getId())
-                                .name(tag.getName())
-                                .build()
-                     ).collect(Collectors.toList()))
-                .build();
+        return FilmMapping.toDTO(film);
     }
 
     @Override
@@ -146,20 +107,6 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public List<FilmDTO> getAllFilms() {
         return filmRepository.findAll().stream()
-                .map(film -> FilmDTO.builder()
-                        .id(film.getId())
-                        .title(film.getTitle())
-                        .country(film.getCountry())
-                        .director(film.getDirector())
-                        .releaseDate(film.getReleaseDate())
-                        .restrictAge(film.getRestrictAge())
-                        .tags(film.getTags().stream()
-                                .map(tag -> TagDTO.builder()
-                                        .id(tag.getId())
-                                        .name(tag.getName())
-                                        .build()
-                                ).collect(Collectors.toList()))
-                        .build()
-                ).collect(Collectors.toList());
+                .map(FilmMapping::toDTO).collect(Collectors.toList());
     }
 }

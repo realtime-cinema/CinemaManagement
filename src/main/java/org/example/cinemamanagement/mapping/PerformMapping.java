@@ -8,7 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 
 public class PerformMapping {
-    public static PerformDTO convert(Perform perform) {
+    public static PerformDTO toDTO(Perform perform) {
         TypeMap<Perform, PerformDTO> typeMap = new ModelMapper().createTypeMap(Perform.class, PerformDTO.class);
 
         typeMap.addMappings(mapper -> {
@@ -18,7 +18,6 @@ public class PerformMapping {
             mapper.map(Perform::getTranslateType, PerformDTO::setTranslateTypeDTO);
         });
 //        i don't know why losing the value of cinema in cinemaroomDTO when mapping?
-
 
         PerformDTO performDTO = typeMap.map(perform);
         performDTO.getCinemaRoomDTO().setCinemaDTO(CinemaDTO.builder().
@@ -37,8 +36,7 @@ public class PerformMapping {
         return performDTO;
     }
 
-
-    public static Perform convert(PerformDTO performDTO) {
+    public static Perform toEntity(PerformDTO performDTO) {
         TypeMap<PerformDTO, Perform> typeMap = new ModelMapper()
                 .createTypeMap(PerformDTO.class, Perform.class);
         typeMap.addMappings(mapper -> {
