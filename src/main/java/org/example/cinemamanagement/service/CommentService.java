@@ -1,0 +1,21 @@
+package org.example.cinemamanagement.service;
+
+import org.example.cinemamanagement.dto.CommentDTO;
+import org.example.cinemamanagement.request.AddCommentRequest;
+import org.example.cinemamanagement.request.CommentResponse;
+
+import java.util.List;
+import java.util.UUID;
+
+public interface CommentService {
+    public List<CommentResponse> getAllCommentByFilmIdAndExceptForUserID(CommentDTO commentDTO);
+
+    public List<CommentResponse> getCommentByFilmIdAndUserId(CommentDTO commentDTO);
+
+    public String addComment(AddCommentRequest addCommentRequest);
+
+    public CommentDTO updateComment(CommentDTO commentDTO);
+
+    public void deleteComment(UUID id);
+
+}
