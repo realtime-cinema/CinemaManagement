@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/test/**").permitAll()
                         .requestMatchers("/api/v1/managers/**").hasRole(Role.MANAGER_ADMIN.name())
                         .requestMatchers("/api/owner/**").hasRole(Role.OWNER.name())
-                        .requestMatchers("/api/v1/cinemas/**", "api/v1/layouts/**","api/v1/films/**").permitAll()
+                        .requestMatchers("/api/v1/cinemas/**", "api/v1/layouts/**","api/v1/films/**", "api/v1/comments/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
