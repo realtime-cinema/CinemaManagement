@@ -11,6 +11,8 @@ import java.util.UUID;
 public class CommentResponse {
     private UUID commentId;
     private UUID userId;
+
+    @JsonProperty("full_name")
     private String fullName;
     private String comment;
 }

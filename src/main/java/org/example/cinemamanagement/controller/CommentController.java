@@ -24,11 +24,11 @@ public class CommentController {
         return ResponseEntity.ok(commentService.addComment(addCommentRequest));
     }
 
-    @GetMapping
-    public ResponseEntity<List<CommentResponse>> getAllCommentByFilmIdAndExceptForUserId(@RequestBody CommentDTO commentDTO)
+    @GetMapping("/{filmId}")
+    public ResponseEntity<List<CommentResponse>> getAllCommentByFilmIdWithoutCommentsOfCurrentUserWhoIsLoggin(@PathVariable UUID filmId)
     {
         return ResponseEntity.ok(commentService
-                .getAllCommentByFilmIdAndExceptForUserID(commentDTO));
+                .getAllCommentsOfFilmWithoutCommentOfCurrentUser(filmId));
     }
 
     @GetMapping("/user")

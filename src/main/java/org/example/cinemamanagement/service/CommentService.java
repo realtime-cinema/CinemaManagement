@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CommentService {
-    public List<CommentResponse> getAllCommentByFilmIdAndExceptForUserID(CommentDTO commentDTO);
+    public List<CommentResponse> getAllCommentsOfFilmWithoutCommentOfCurrentUser(UUID filmID);
 
     public List<CommentResponse> getCommentByFilmIdAndUserId(CommentDTO commentDTO);
 

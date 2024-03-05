@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface CommentRepository extends JpaRepository<Comment, UUID> {
 
     @Query("SELECT c FROM Comment c WHERE c.film.id = ?1 AND c.user.id != ?2")
-    List<Comment> findAllCommentByFilmIdAndExceptForUserId(UUID filmID, UUID userID);
+    List<Comment> findAllByFilmIdWithoutOfUser(UUID filmID, UUID userID);
 
     @Query("SELECT c FROM Comment c WHERE c.film.id = ?1 AND c.user.id = ?2")
     List<Comment> findCommentByFilmIdAndUserId(UUID filmID, UUID userID);
