@@ -3,6 +3,7 @@ package org.example.cinemamanagement.controller;
 import org.example.cinemamanagement.dto.CinemaDTO;
 import org.example.cinemamanagement.dto.CinemaManagerDTO;
 import org.example.cinemamanagement.model.Cinema;
+import org.example.cinemamanagement.model.User;
 import org.example.cinemamanagement.repository.CinemaRepository;
 import org.example.cinemamanagement.repository.UserRepository;
 import org.example.cinemamanagement.request.AddAndDeleteManagerRequest;
@@ -10,6 +11,7 @@ import org.example.cinemamanagement.service.CinemaManagerService;
 import org.example.cinemamanagement.service.CinemaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -47,7 +49,7 @@ public class TestController {
 
     @PostMapping("/add-manager")
     public ResponseEntity<?> addManager(@RequestBody AddAndDeleteManagerRequest addAndDeleteManagerRequest) {
-        if(addAndDeleteManagerRequest.getEmailUser() == null || addAndDeleteManagerRequest.getIdCinema() == null) {
+        if (addAndDeleteManagerRequest.getEmailUser() == null || addAndDeleteManagerRequest.getIdCinema() == null) {
             return ResponseEntity.badRequest().body("Email or id cinema is null");
         }
 
@@ -76,8 +78,13 @@ public class TestController {
     }*/
 
     @GetMapping("/test")
-    public void test()
-    {
-        throw new RuntimeException("Test exception");
+    public User test() {
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()
+        );
+
+        return (User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
     }
 }

@@ -46,5 +46,6 @@ public class PerformMapping {
             mapper.map(PerformDTO::getTranslateTypeDTO, Perform::setTranslateType);
         });
         return typeMap.map(performDTO);
+
     }
 }

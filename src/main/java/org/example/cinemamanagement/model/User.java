@@ -29,10 +29,10 @@ public class User implements UserDetails {
     private UUID id;
 
     @Column(name = "first_name")
-    private String firstname;
+    private String firstName;
 
     @Column(name = "last_name")
-    private String lastname;
+    private String lastName;
 
     @Column(name = "email")
     private String email;
@@ -66,6 +66,14 @@ public class User implements UserDetails {
     })
     private List<Comment> comments;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH
+    })
+    private List<PickSeat> pickSeats;
     public void addCinema(Cinema cinema) {
         if (this.cinemas == null) {
             this.cinemas = new ArrayList<>();
