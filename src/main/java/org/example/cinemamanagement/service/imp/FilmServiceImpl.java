@@ -1,7 +1,6 @@
 package org.example.cinemamanagement.service.imp;
 
 import org.example.cinemamanagement.dto.FilmDTO;
-import org.example.cinemamanagement.dto.TagDTO;
 import org.example.cinemamanagement.mapping.FilmMapping;
 import org.example.cinemamanagement.model.Film;
 import org.example.cinemamanagement.model.Tag;
@@ -30,7 +29,7 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public FilmDTO getFilmById(UUID id) {
-        Film film =  filmRepository.findById(id)
+        Film film = filmRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Film not found"));
         return FilmMapping.toDTO(film);
     }
@@ -44,10 +43,11 @@ public class FilmServiceImpl implements FilmService {
 
         List<Tag> tags = addFilmRequest.getTags().stream().map(tag -> {
             Optional<Tag> tagOptional = tagRepository.findByName(tag.getName());
-            if (tagOptional.isPresent()) {
-                return tagOptional.get();
-            }
-            return tagRepository.save(Tag.builder().name(tag.getName()).build());
+            return tagOptional.orElseGet(() -> tagRepository.save(Tag
+                    .builder()
+                    .name(tag.getName())
+                    .build())
+            );
         }).collect(Collectors.toList());
 
         Film tempFilm = filmRepository.save(
@@ -87,12 +87,12 @@ public class FilmServiceImpl implements FilmService {
 
         if (filmDTO.getTags() != null) {
             List<Tag> tags = filmDTO.getTags().stream()
-                            .map(tagDTO -> Tag.builder()
-                                    .id(tagDTO.getId())
-                                    .name(tagDTO.getName())
-                                    .build()
-                            )
-                            .collect(Collectors.toList());
+                    .map(tagDTO -> Tag.builder()
+                            .id(tagDTO.getId())
+                            .name(tagDTO.getName())
+                            .build()
+                    )
+                    .collect(Collectors.toList());
             film.setTags(tags);
         }
         filmRepository.save(film);
