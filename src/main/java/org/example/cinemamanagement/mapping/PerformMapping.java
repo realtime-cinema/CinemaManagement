@@ -17,7 +17,6 @@ public class PerformMapping {
             mapper.map(Perform::getViewType, PerformDTO::setViewTypeDTO);
             mapper.map(Perform::getTranslateType, PerformDTO::setTranslateTypeDTO);
         });
-//        i don't know why losing the value of cinema in cinemaroomDTO when mapping?
 
         PerformDTO performDTO = typeMap.map(perform);
         performDTO.getCinemaRoomDTO().setCinemaDTO(CinemaDTO.builder().
