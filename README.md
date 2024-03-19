@@ -8,3 +8,6 @@ And myteam's solution is: if a person who pick before, that this seat will lock 
 https://dbdiagram.io/d/Trat-DJien-ITMC-Solution-65bf2fc6ac844320ae6458be
 ## Structure of Application
 ![image](https://github.com/realtime-cinema/CinemaManagement/assets/90248665/e361de87-dad8-4714-8981-593d135c5969)
+
+## Progress
+Just done some CRUD API helping for build client. When Client need some service. My backend team. will build more.
