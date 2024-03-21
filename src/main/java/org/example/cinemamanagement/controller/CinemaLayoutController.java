@@ -1,7 +1,7 @@
 package org.example.cinemamanagement.controller;
 
 import org.example.cinemamanagement.dto.CinemaLayoutDTO;
-import org.example.cinemamanagement.request.AddCinemaLayoutRequest;
+import org.example.cinemamanagement.payload.request.AddCinemaLayoutRequest;
 import org.example.cinemamanagement.service.CinemaLayoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +13,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/layouts")
 public class CinemaLayoutController {
+
 
 
     CinemaLayoutService cinemaLayoutService;

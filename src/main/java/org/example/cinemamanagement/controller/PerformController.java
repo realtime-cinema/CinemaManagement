@@ -1,6 +1,6 @@
 package org.example.cinemamanagement.controller;
 
-import org.example.cinemamanagement.request.AddPerformRequest;
+import org.example.cinemamanagement.payload.request.AddPerformRequest;
 import org.example.cinemamanagement.service.PerformService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

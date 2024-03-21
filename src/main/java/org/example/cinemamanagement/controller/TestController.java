@@ -6,7 +6,7 @@ import org.example.cinemamanagement.model.Cinema;
 import org.example.cinemamanagement.model.User;
 import org.example.cinemamanagement.repository.CinemaRepository;
 import org.example.cinemamanagement.repository.UserRepository;
-import org.example.cinemamanagement.request.AddAndDeleteManagerRequest;
+import org.example.cinemamanagement.payload.request.AddAndDeleteManagerRequest;
 import org.example.cinemamanagement.service.CinemaManagerService;
 import org.example.cinemamanagement.service.CinemaService;
 import org.springframework.beans.factory.annotation.Autowired;

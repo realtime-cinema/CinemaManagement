@@ -1,8 +1,8 @@
 package org.example.cinemamanagement.controller;
 
 import org.example.cinemamanagement.dto.CommentDTO;
-import org.example.cinemamanagement.request.AddCommentRequest;
-import org.example.cinemamanagement.request.CommentResponse;
+import org.example.cinemamanagement.payload.request.AddCommentRequest;
+import org.example.cinemamanagement.payload.response.CommentResponse;
 import org.example.cinemamanagement.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

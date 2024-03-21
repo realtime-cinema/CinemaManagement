@@ -1,7 +1,7 @@
 package org.example.cinemamanagement.service;
 
 import org.example.cinemamanagement.dto.CinemaLayoutDTO;
-import org.example.cinemamanagement.request.AddCinemaLayoutRequest;
+import org.example.cinemamanagement.payload.request.AddCinemaLayoutRequest;
 
 import java.util.List;
 import java.util.UUID;

@@ -49,6 +49,15 @@ public class Cinema {
     @Column(name = "name")
     private String name;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "cinema", fetch = FetchType.LAZY, cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH
+    })
+    private List<Payment> payments;
+
     public void addUser(User user) {
         if (this.cinemaManagers == null) {
             this.cinemaManagers = new ArrayList<>();

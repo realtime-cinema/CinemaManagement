@@ -30,8 +30,6 @@ create table cinema_room(
     foreign key(cinema_layout_id) references cinema_layout(id)
 );
 
-
-
 create table cinema_layout_and_cinema_relationship(
 	cinema_layout_id binary(16) not null,
 	cinema_id binary(16) not null,
@@ -102,5 +100,38 @@ create table perform(
     foreign key (translate_type_id) references translate_type(id),
     foreign key (dest_id) references cinema_room(id)
 );
+
+create table payment
+(
+    id binary(16) not null,
+    date_create timestamp not null,
+    amount int not null,
+    user_id binary(16) not null,
+    cinema_id binary(16) not null,
+    primary key(id),
+    foreign key (user_id) references users(id),
+    foreign key (cinema_id) references cinema(id)
+);
+
+create table seat_price
+(
+    id binary(16) not null,
+    perform_id binary(16) not null,
+    x int not null,
+    y int not null,
+    price int not null,
+    primary key(id),
+    foreign key(perform_id) references perform(id)
+);
+
+create table film_price
+(
+    id binary(16) not null,
+    film_id binary(16) not null,
+    type varchar(100) not null,
+    price int not null,
+    foreign key(film_id) references film(id)
+);
+
 alter table tag add  column  name varchar (50) NOT NULL ;
 insert into cinema (id,variant, name) values( 123,"Ha Noi", "CGV")

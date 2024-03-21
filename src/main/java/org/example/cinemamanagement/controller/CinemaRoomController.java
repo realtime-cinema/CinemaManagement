@@ -1,6 +1,6 @@
 package org.example.cinemamanagement.controller;
 
-import org.example.cinemamanagement.request.AddCinemaRoomRequest;
+import org.example.cinemamanagement.payload.request.AddCinemaRoomRequest;
 import org.example.cinemamanagement.service.CinemaRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

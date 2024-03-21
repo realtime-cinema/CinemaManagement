@@ -1,8 +1,8 @@
 package org.example.cinemamanagement.service;
 
 import org.example.cinemamanagement.dto.CommentDTO;
-import org.example.cinemamanagement.request.AddCommentRequest;
-import org.example.cinemamanagement.request.CommentResponse;
+import org.example.cinemamanagement.payload.request.AddCommentRequest;
+import org.example.cinemamanagement.payload.response.CommentResponse;
 
 import java.util.List;
 import java.util.UUID;

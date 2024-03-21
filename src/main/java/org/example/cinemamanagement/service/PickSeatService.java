@@ -1,7 +1,7 @@
 package org.example.cinemamanagement.service;
 
 import org.example.cinemamanagement.dto.PickSeatDTO;
-import org.example.cinemamanagement.request.PickSeatRequest;
+import org.example.cinemamanagement.payload.request.PickSeatRequest;
 
 import java.util.List;
 import java.util.UUID;
