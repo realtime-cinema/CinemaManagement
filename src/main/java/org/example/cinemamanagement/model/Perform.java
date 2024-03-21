@@ -65,5 +65,9 @@ public class Perform {
 
     @Column(name = "end_time")
     private Timestamp endTime;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "perform")
+    private List<SeatPrice> seatPrices;
 }
 

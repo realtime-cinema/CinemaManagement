@@ -63,4 +63,9 @@ public class Film {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "film")
     private List<Perform> performs;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "film")
+    private List<FilmPrice> filmPrices;
+
 }

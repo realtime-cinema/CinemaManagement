@@ -2,7 +2,7 @@ package org.example.cinemamanagement.controller;
 
 import org.example.cinemamanagement.dto.CinemaDTO;
 import org.example.cinemamanagement.dto.CinemaManagerDTO;
-import org.example.cinemamanagement.request.AddCinemaRequest;
+import org.example.cinemamanagement.payload.request.AddCinemaRequest;
 import org.example.cinemamanagement.service.CinemaManagerService;
 import org.example.cinemamanagement.service.CinemaService;
 import org.springframework.beans.factory.annotation.Autowired;

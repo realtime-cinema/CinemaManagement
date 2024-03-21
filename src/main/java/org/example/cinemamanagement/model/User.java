@@ -74,6 +74,16 @@ public class User implements UserDetails {
             CascadeType.REFRESH
     })
     private List<PickSeat> pickSeats;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH
+    })
+    private List<Payment> payments;
+
     public void addCinema(Cinema cinema) {
         if (this.cinemas == null) {
             this.cinemas = new ArrayList<>();

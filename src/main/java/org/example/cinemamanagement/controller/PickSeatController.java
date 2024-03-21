@@ -1,7 +1,7 @@
 package org.example.cinemamanagement.controller;
 
 import org.example.cinemamanagement.dto.PickSeatDTO;
-import org.example.cinemamanagement.request.PickSeatRequest;
+import org.example.cinemamanagement.payload.request.PickSeatRequest;
 import org.example.cinemamanagement.service.PickSeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

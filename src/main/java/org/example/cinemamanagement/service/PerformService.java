@@ -1,7 +1,7 @@
 package org.example.cinemamanagement.service;
 
 import org.example.cinemamanagement.dto.PerformDTO;
-import org.example.cinemamanagement.request.AddPerformRequest;
+import org.example.cinemamanagement.payload.request.AddPerformRequest;
 
 import java.util.List;
 

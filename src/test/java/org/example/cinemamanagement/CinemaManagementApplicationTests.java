@@ -1,7 +1,7 @@
 package org.example.cinemamanagement;
 
 import org.example.cinemamanagement.dto.PerformDTO;
-import org.example.cinemamanagement.mapping.PerformMapping;
+import org.example.cinemamanagement.mapper.PerformMapper;
 import org.example.cinemamanagement.model.*;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +27,7 @@ class CinemaManagementApplicationTests {
                 .startTime(Timestamp.valueOf(LocalDateTime.now()))
                 .endTime(Timestamp.valueOf(LocalDateTime.now().plusHours(2)))
                 .build();
-        PerformDTO performDTO = PerformMapping.toDTO(perform);
+        PerformDTO performDTO = PerformMapper.toDTO(perform);
         System.out.println(performDTO);
     }
 

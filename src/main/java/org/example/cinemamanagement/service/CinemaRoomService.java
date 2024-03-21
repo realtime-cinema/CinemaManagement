@@ -1,7 +1,7 @@
 package org.example.cinemamanagement.service;
 
 import org.example.cinemamanagement.dto.CinemaRoomDTO;
-import org.example.cinemamanagement.request.AddCinemaRoomRequest;
+import org.example.cinemamanagement.payload.request.AddCinemaRoomRequest;
 
 import java.util.List;
 import java.util.UUID;
