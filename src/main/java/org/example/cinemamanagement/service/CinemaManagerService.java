@@ -3,7 +3,9 @@ package org.example.cinemamanagement.service;
 
 import org.example.cinemamanagement.dto.CinemaManagerDTO;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public interface CinemaManagerService {
@@ -16,6 +18,8 @@ public interface CinemaManagerService {
     public void getCinemaManager(String emailUser, UUID idCinema);
 
     public List<CinemaManagerDTO> getAllCinemaManagerFromCinema(UUID idCinema);
+
+    public List<Object[]> getTotalAmountOfCinemaInMonth();
 
 }
 

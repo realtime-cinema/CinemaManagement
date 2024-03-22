@@ -53,4 +53,9 @@ public class ManagerCinemaController {
         return ResponseEntity.ok("All manager");
     }
 
+    @GetMapping("/get-amount-cinema")
+    public ResponseEntity<?> getTotalAmountOfCinemaInMonth() {
+        return ResponseEntity.ok(cinemaManagerService.getTotalAmountOfCinemaInMonth());
+    }
+
 }
