@@ -7,6 +7,7 @@ import org.example.cinemamanagement.common.Role;
 import org.example.cinemamanagement.dto.CinemaManagerDTO;
 import org.example.cinemamanagement.model.Cinema;
 import org.example.cinemamanagement.model.User;
+import org.example.cinemamanagement.repository.BusinessRepository;
 import org.example.cinemamanagement.repository.CinemaRepository;
 import org.example.cinemamanagement.repository.UserRepository;
 import org.example.cinemamanagement.service.CinemaManagerService;
@@ -14,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -29,6 +31,9 @@ public class CinemaManagerServiceImpl implements CinemaManagerService {
 
     @Autowired
     CinemaRepository cinemaRepository;
+
+    @Autowired
+    private BusinessRepository businessRepository;
 
     @Override
     @Transactional
@@ -65,6 +70,19 @@ public class CinemaManagerServiceImpl implements CinemaManagerService {
                                     .build();
                         }
                 ).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Object[]> getTotalAmountOfCinemaInMonth() {
+        User userTemp = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.findById(userTemp.getId()).orElseThrow(
+                () -> new RuntimeException("User not found")
+        );
+
+        LocalDate today = LocalDate.now();
+        LocalDate thirtyDaysAgo = today.minus(30, ChronoUnit.DAYS);
+
+        return businessRepository.getTotalAmountOfCinemaInMonth(userTemp.getId(), thirtyDaysAgo, today);
     }
 
 }

@@ -17,5 +17,7 @@ public interface CinemaManagerService {
 
     public List<CinemaManagerDTO> getAllCinemaManagerFromCinema(UUID idCinema);
 
+    public List<Object[]> getTotalAmountOfCinemaInMonth();
+
 }
 

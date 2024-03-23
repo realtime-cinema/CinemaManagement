@@ -8,5 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface SeatPriceRepository extends JpaRepository<SeatPrice, UUID> {
-    public SeatPrice findByXAndY(int x, int y);
+    public SeatPrice findByPerform_IdAndXAndY(UUID performId, int x, int y);
 }

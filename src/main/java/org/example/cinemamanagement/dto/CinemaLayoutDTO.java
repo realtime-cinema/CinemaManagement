@@ -17,6 +17,7 @@ public class CinemaLayoutDTO {
 
     @JsonProperty("x_index")
     private Integer xIndex;
+
     @JsonProperty("y_index")
     private Integer yIndex;
 }
