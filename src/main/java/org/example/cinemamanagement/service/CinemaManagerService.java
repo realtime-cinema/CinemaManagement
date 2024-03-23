@@ -3,9 +3,7 @@ package org.example.cinemamanagement.service;
 
 import org.example.cinemamanagement.dto.CinemaManagerDTO;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public interface CinemaManagerService {
