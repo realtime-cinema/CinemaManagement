@@ -70,4 +70,3 @@ public class Perform {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "perform")
     private List<SeatPrice> seatPrices;
 }
-

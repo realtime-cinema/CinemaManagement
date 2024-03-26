@@ -28,8 +28,11 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/test/**").permitAll()
-                        .requestMatchers("/api/v1/managers/**").hasRole(Role.MANAGER_ADMIN.name())
-                        .requestMatchers("/api/owner/**").hasRole(Role.OWNER.name())
+                        .requestMatchers("/api/v1/managers/**").hasAuthority(Role.MANAGER_ADMIN.name())
+                        .requestMatchers("/api/owner/**").hasAuthority(Role.OWNER.name())
+                        .requestMatchers("/api/vnpay/**").permitAll()
+                        .requestMatchers("/api/v1/vnpay/**").permitAll()
+                        .requestMatchers("/api/v1/films").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
