@@ -1,4 +1,4 @@
-package org.example.cinemamanagement.service;
+package org.example.cinemamanagement.service.impl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.http.client.methods.CloseableHttpResponse;

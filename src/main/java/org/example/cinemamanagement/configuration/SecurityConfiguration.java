@@ -32,6 +32,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/owner/**").hasAuthority(Role.OWNER.name())
                         .requestMatchers("/api/vnpay/**").permitAll()
                         .requestMatchers("/api/v1/vnpay/**").permitAll()
+                        .requestMatchers("/api/v1/films").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

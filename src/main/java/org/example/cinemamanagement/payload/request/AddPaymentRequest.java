@@ -9,6 +9,5 @@ import java.util.UUID;
 public class AddPaymentRequest {
     @JsonProperty("cinema_id")
     private UUID cinemaId;
-
     private Long amount;
 }

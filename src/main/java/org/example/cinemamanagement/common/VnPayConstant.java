@@ -3,7 +3,7 @@ package org.example.cinemamanagement.common;
 
 public class VnPayConstant {
     public static final String VNP_PAY_URL = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static final String VNP_RETURN_URL = "http://localhost:8080/api/v1/vnpay/callback";
+    public static final String VNP_RETURN_URL = "http://localhost:3000/payment";
     public static final String VNP_TMN_CODE = "E6T2KFD0";
     public static final String SECRET_KEY = "UUVLXFPOHOQJNLIKNCUBWJKAXRRWAVQP";
     public static final String VNP_API_URL = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";

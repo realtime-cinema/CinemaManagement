@@ -1,10 +1,10 @@
 create database cinema_management;
-use cinema_management; 
+use cinema_management;
 create table users  (
 	id binary(16) primary key,
     first_name varchar(50) not null,
     last_name varchar(50) not null,
-    email varchar(50) not null, 
+    email varchar(50) not null,
     password varchar(100) not null,
     role varchar(50) not null
 );
@@ -53,17 +53,17 @@ create table tag (
 );
 
 create table film (
-	id binary(16) primary key, 
-    title varchar(255) not null, 
+	id binary(16) primary key,
+    title varchar(255) not null,
     director varchar(50),
-	release_date timestamp, 
+	release_date timestamp,
     country varchar(50),
     restrict_age integer
 );
 
 create table film_tag_relationship (
 	film_id binary(16) not null,
-    tag_id binary(16) not null, 
+    tag_id binary(16) not null,
     primary key (film_id, tag_id),
     foreign key (film_id) references tag(id),
     foreign key (tag_id) references film(id)
@@ -71,9 +71,9 @@ create table film_tag_relationship (
 
 create table comment (
 	id binary(16) primary key,
-    user_id binary(16) not null, 
+    user_id binary(16) not null,
     dest_id binary(16),
-    foreign key(user_id) references users(id), 
+    foreign key(user_id) references users(id),
     body varchar(250) not null
 );
 
@@ -87,13 +87,13 @@ create table translate_type(
     translate_type varchar(50) not null
 );
 
-create table perform(	
-	id binary(16) not null primary key, 
-    film_id binary(16) not null, 
+create table perform(
+	id binary(16) not null primary key,
+    film_id binary(16) not null,
     view_type_id binary(16) not null,
-    translate_type_id binary(16)  not null, 
-    dest_id binary(16) not null, 
-    start_time timestamp not null, 
+    translate_type_id binary(16)  not null,
+    dest_id binary(16) not null,
+    start_time timestamp not null,
     end_time timestamp not null,
 	foreign key (film_id) references film(id),
     foreign key (view_type_id) references view_type(id),
