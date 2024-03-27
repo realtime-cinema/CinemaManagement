@@ -3,12 +3,15 @@ package org.example.cinemamanagement.service.impl;
 import org.example.cinemamanagement.dto.PaymentDTO;
 import org.example.cinemamanagement.model.Cinema;
 import org.example.cinemamanagement.model.Payment;
+import org.example.cinemamanagement.model.PickSeat;
 import org.example.cinemamanagement.model.User;
 import org.example.cinemamanagement.payload.request.AddPaymentRequest;
 import org.example.cinemamanagement.repository.CinemaRepository;
 import org.example.cinemamanagement.repository.PaymentRepository;
+import org.example.cinemamanagement.repository.PickSeatRepository;
 import org.example.cinemamanagement.repository.UserRepository;
 import org.example.cinemamanagement.service.PaymentService;
+import org.example.cinemamanagement.service.SeatPaymentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,6 +29,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private CinemaRepository cinemaRepository;
+
+    @Autowired
+    private PickSeatRepository pickSeatRepository;
+
+    @Autowired
+    private SeatPaymentService seatPaymentService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -51,6 +60,12 @@ public class PaymentServiceImpl implements PaymentService {
         Cinema cinema = cinemaRepository.findById(req.getCinemaId())
                 .orElseThrow(() -> new RuntimeException("Cinema not found"));
 
+        req.getPickSeats().stream().forEach(pickseat -> {
+            PickSeat pickSeat = pickSeatRepository.findById(pickseat.getId())
+                    .orElseThrow(() -> new RuntimeException("PickSeat not found by Id: " + pickseat.getId()));
+        });
+
+
         if (req.getAmount() == null)
             throw new RuntimeException("Error payment (amount is NULL)");
 
@@ -58,7 +73,10 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setUser(user);
         payment.setCinema(cinema);
         payment.setAmount(req.getAmount());
-        paymentRepository.save(payment);
+        UUID paymentId = paymentRepository.save(payment).getId();
+        System.out.print(paymentId);
+
+        seatPaymentService.addListSeatOfPayment(paymentId, req.getPickSeats());
 
         return "Successfully";
     }
