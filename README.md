@@ -18,4 +18,4 @@ LINK: https://dbdiagram.io/d/Trat-DJien-ITMC-Solution-65bf2fc6ac844320ae6458be
 
 
 ## Progress
-Just done some CRUD API helping for building client. When Client need some service. My backend team will build more.
+Done
