@@ -41,16 +41,17 @@ public class CinemaLayoutServiceImpl implements CinemaLayoutService {
     @Transactional
     public CinemaLayoutDTO addCinemaLayout(AddCinemaLayoutRequest cinemaLayoutRequest) {
         Optional<CinemaLayout> layout = cinemaLayoutRepository.findByXIndexAndYIndex(cinemaLayoutRequest.getXIndex()
-                                                                                    ,cinemaLayoutRequest.getYIndex());
-        if (layout.isPresent())
-            throw new RuntimeException("Cinema layout already exists with xIndex: " + layout.get().getXIndex() + " and yIndex: " + layout.get().getYIndex());
-        else {
-            layout.get().setXIndex(cinemaLayoutRequest.getXIndex());
-            layout.get().setYIndex(cinemaLayoutRequest.getYIndex());
-            cinemaLayoutRepository.save(layout.get());
+                , cinemaLayoutRequest.getYIndex());
+        if (layout.isPresent()) {
+            throw new RuntimeException("Cinema layout already exists with xIndex: "
+                    + cinemaLayoutRequest.getXIndex() + " and yIndex: " + cinemaLayoutRequest.getYIndex());
+        } else {
+            CinemaLayout newLayout = new CinemaLayout();
+            newLayout.setXIndex(cinemaLayoutRequest.getXIndex());
+            newLayout.setYIndex(cinemaLayoutRequest.getYIndex());
+            cinemaLayoutRepository.save(newLayout);
+            return CinemaLayoutMapper.toDTO(newLayout);
         }
-
-        return CinemaLayoutMapper.toDTO(layout.get());
     }
 
     @Override
