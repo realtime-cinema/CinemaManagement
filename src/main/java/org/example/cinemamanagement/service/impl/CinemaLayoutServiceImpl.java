@@ -45,13 +45,14 @@ public class CinemaLayoutServiceImpl implements CinemaLayoutService {
         if (layout.isPresent()) {
             throw new RuntimeException("Cinema layout already exists with xIndex: "
                     + cinemaLayoutRequest.getXIndex() + " and yIndex: " + cinemaLayoutRequest.getYIndex());
-        } else {
-            CinemaLayout newLayout = new CinemaLayout();
-            newLayout.setXIndex(cinemaLayoutRequest.getXIndex());
-            newLayout.setYIndex(cinemaLayoutRequest.getYIndex());
-            cinemaLayoutRepository.save(newLayout);
-            return CinemaLayoutMapper.toDTO(newLayout);
         }
+
+        CinemaLayout newLayout = new CinemaLayout();
+        newLayout.setXIndex(cinemaLayoutRequest.getXIndex());
+        newLayout.setYIndex(cinemaLayoutRequest.getYIndex());
+        cinemaLayoutRepository.save(newLayout);
+        return CinemaLayoutMapper.toDTO(newLayout);
+
     }
 
     @Override
