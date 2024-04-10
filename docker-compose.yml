@@ -2,11 +2,11 @@ version: "3"
 services:
   springboot-app:
     build:
-      context: .  # use the current directory as the build context
+      context: . # use the current directory as the build context
       dockerfile: Dockerfile
     container_name: springboot-app
     ports:
-      - 8080:8080
+      - 9999:9999
     environment:
       #      MYSQL_PORT: 3306
       #      MYSQL_DATABASE: cinema_management
@@ -19,12 +19,11 @@ services:
     depends_on:
       - db
 
-
   db:
     container_name: db
     image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: visualc++ 
+      MYSQL_ROOT_PASSWORD: visualc++
       MYSQL_DATABASE: cinema_management
 
     ports:
