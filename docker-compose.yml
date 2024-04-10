@@ -15,7 +15,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/cinema_management
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: visualc++
-      SERVER_PORT: 8080
+      SERVER_PORT: 9999
     depends_on:
       - db
 
