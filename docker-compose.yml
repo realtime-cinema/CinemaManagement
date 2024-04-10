@@ -2,7 +2,7 @@ version: "3"
 services:
   springboot-app:
     build:
-      context: . # use the current directory as the build context
+      context: . # use the current directory as the build contexts
       dockerfile: Dockerfile
     container_name: springboot-app
     ports:
