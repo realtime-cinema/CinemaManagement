@@ -14,7 +14,8 @@ services:
       #      MYSQL_PASSWORD: 123456
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/cinema_management
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 123456
+      SPRING_DATASOURCE_PASSWORD: visualc++
+      SERVER_PORT: 8080
     depends_on:
       - db
 
@@ -23,7 +24,7 @@ services:
     container_name: db
     image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: visualc++ 
       MYSQL_DATABASE: cinema_management
 
     ports:
