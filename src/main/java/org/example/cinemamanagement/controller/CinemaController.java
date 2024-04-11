@@ -3,6 +3,7 @@ package org.example.cinemamanagement.controller;
 import org.example.cinemamanagement.dto.CinemaDTO;
 import org.example.cinemamanagement.dto.CinemaManagerDTO;
 import org.example.cinemamanagement.payload.request.AddCinemaRequest;
+import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.CinemaManagerService;
 import org.example.cinemamanagement.service.CinemaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,33 +29,52 @@ public class CinemaController {
      *                   CRUD basic
      */
     @GetMapping
-    public ResponseEntity<List<CinemaDTO>> getAllCinema() {
-        return ResponseEntity.ok(cinemaService.getAllCinema());
+    public ResponseEntity<?> getAllCinema() {
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Get all cinemas successfully");
+        dataResponse.setData(cinemaService.getAllCinema());
+
+        return ResponseEntity.ok(dataResponse);
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<CinemaDTO> getCinema(@PathVariable(name = "id") UUID id) {
-        return ResponseEntity.ok(cinemaService.getCinema(id));
+    public ResponseEntity<?> getCinema(@PathVariable(name = "id") UUID id) {
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Get cinema successfully");
+        dataResponse.setData(cinemaService.getCinema(id));
+
+        return ResponseEntity.ok(dataResponse);
     }
 
 
     @PostMapping
-    public ResponseEntity<CinemaDTO> addCinema(@RequestBody AddCinemaRequest addCinemaRequest) {
-        return ResponseEntity.ok(cinemaService.addCinema(addCinemaRequest));
+    public ResponseEntity<?> addCinema(@RequestBody AddCinemaRequest addCinemaRequest) {
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Add cinema successfully");
+        dataResponse.setData(cinemaService.addCinema(addCinemaRequest));
+
+        return ResponseEntity.ok(dataResponse);
     }
 
 
     @PutMapping
     public ResponseEntity<?> updateCinema(@RequestBody CinemaDTO cinemaDTO) {
-        cinemaService.updateCinema(cinemaDTO);
-        return ResponseEntity.status(HttpStatus.OK).body("Cinema updated successfully");
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Update cinema successfully");
+        dataResponse.setData(cinemaService.updateCinema(cinemaDTO));
+
+        return ResponseEntity.ok(dataResponse);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCinema(@PathVariable(value = "id") UUID id) {
         cinemaService.deleteCinema(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Cinema deleted successfully");
+        return ResponseEntity.status(HttpStatus.OK).body("Message: Cinema deleted successfully");
     }
 
 
@@ -63,7 +83,12 @@ public class CinemaController {
      *                       Another
      */
     @GetMapping("/{id}/managers")
-    public ResponseEntity<List<CinemaManagerDTO>> getAllManagerFromCinema(@PathVariable(name = "id") UUID id) {
-        return ResponseEntity.ok(cinemaManagerService.getAllCinemaManagerFromCinema(id));
+    public ResponseEntity<?> getAllManagerFromCinema(@PathVariable(name = "id") UUID id) {
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Get all manager from cinema successfully");
+        dataResponse.setData(cinemaManagerService.getAllCinemaManagerFromCinema(id));
+
+        return ResponseEntity.ok(dataResponse);
     }
 }

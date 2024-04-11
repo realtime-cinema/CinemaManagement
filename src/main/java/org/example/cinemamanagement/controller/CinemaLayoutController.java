@@ -2,6 +2,7 @@ package org.example.cinemamanagement.controller;
 
 import org.example.cinemamanagement.dto.CinemaLayoutDTO;
 import org.example.cinemamanagement.payload.request.AddCinemaLayoutRequest;
+import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.CinemaLayoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,24 +25,39 @@ public class CinemaLayoutController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CinemaLayoutDTO>> getAllLayout() {
-        return ResponseEntity.ok(cinemaLayoutService.getAllCinemaLayout());
+    public ResponseEntity<?> getAllLayout() {
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Get all layouts successfully");
+        dataResponse.setData(cinemaLayoutService.getAllCinemaLayout());
+
+        return ResponseEntity.ok(dataResponse);
     }
 
     @PostMapping
-    public ResponseEntity<CinemaLayoutDTO> addLayout(@RequestBody AddCinemaLayoutRequest cinemaLayoutRequest) {
-        return ResponseEntity.ok(cinemaLayoutService.addCinemaLayout(cinemaLayoutRequest));
+    public ResponseEntity<?> addLayout(@RequestBody AddCinemaLayoutRequest cinemaLayoutRequest) {
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Add layout successfully");
+        dataResponse.setData(cinemaLayoutService.addCinemaLayout(cinemaLayoutRequest));
+
+        return ResponseEntity.ok(dataResponse);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateLayout(@PathVariable UUID id, @RequestBody CinemaLayoutDTO cinemaLayoutDTO) {
-        return ResponseEntity.ok(cinemaLayoutService.updateCinemaLayout(id,cinemaLayoutDTO));
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Update layout successfully");
+        dataResponse.setData(cinemaLayoutService.updateCinemaLayout(id,cinemaLayoutDTO));
+
+        return ResponseEntity.ok(dataResponse);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteLayout(@PathVariable UUID id) {
         cinemaLayoutService.deleteCinemaLayout(id);
-        return ResponseEntity.ok("Cinema layout deleted successfully!");
+        return ResponseEntity.ok("Message: Cinema layout deleted successfully!");
     }
 
 }

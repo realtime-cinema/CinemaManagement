@@ -1,6 +1,7 @@
 package org.example.cinemamanagement.controller;
 
 import org.example.cinemamanagement.payload.request.AddPaymentRequest;
+import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +18,17 @@ public class PaymentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getPayment(@PathVariable UUID id) {
-        return ResponseEntity.ok(paymentService.getPayment(id));
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Get payment successfully");
+        dataResponse.setData(paymentService.getPayment(id));
+
+        return ResponseEntity.ok(dataResponse);
     }
 
     @PostMapping
     public ResponseEntity<?> addPayment(@RequestBody AddPaymentRequest req) {
-        return ResponseEntity.ok(paymentService.addPayment(req));
+        paymentService.addPayment(req);
+        return ResponseEntity.ok("Message: Add payment successfully");
     }
 }
