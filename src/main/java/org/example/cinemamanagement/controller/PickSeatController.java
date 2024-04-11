@@ -2,8 +2,10 @@ package org.example.cinemamanagement.controller;
 
 import org.example.cinemamanagement.dto.PickSeatDTO;
 import org.example.cinemamanagement.payload.request.PickSeatRequest;
+import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.PickSeatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,15 +28,24 @@ public class PickSeatController {
     }
 
     @GetMapping("/{performID}")
-    public List<PickSeatDTO> getPickedSeatsByPerformID(@PathVariable UUID performID) {
-        return pickSeatService.getAllSeatsPickedOfPerform(performID);
+    public ResponseEntity<?> getPickedSeatsByPerformID(@PathVariable UUID performID) {
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Get all picked seats successfully");
+        dataResponse.setData(pickSeatService.getAllSeatsPickedOfPerform(performID));
+
+        return ResponseEntity.ok(dataResponse);
     }
 
     @PostMapping("/{performID}")
-    public List<PickSeatDTO> addPickSeat(@PathVariable UUID performID,
+    public ResponseEntity<?> addPickSeat(@PathVariable UUID performID,
                                          @RequestBody List<PickSeatRequest> pickSeatRequests) {
-        System.out.println(pickSeatRequests);
-        return pickSeatService.addPickSeat(pickSeatRequests, performID);
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Add pick seat successfully");
+        dataResponse.setData(pickSeatService.addPickSeat(pickSeatRequests, performID));
+
+        return ResponseEntity.ok(dataResponse);
     }
 
     @DeleteMapping("/{id}")

@@ -2,6 +2,7 @@ package org.example.cinemamanagement.controller;
 
 import org.example.cinemamanagement.dto.CinemaManagerDTO;
 import org.example.cinemamanagement.payload.request.AddAndDeleteManagerRequest;
+import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.CinemaManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +56,12 @@ public class ManagerCinemaController {
 
     @GetMapping("/get-amount-cinema")
     public ResponseEntity<?> getTotalAmountOfCinemaInMonth() {
-        return ResponseEntity.ok(cinemaManagerService.getTotalAmountOfCinemaInMonth());
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Get total amount successfully");
+        dataResponse.setData(cinemaManagerService.getTotalAmountOfCinemaInMonth());
+
+        return ResponseEntity.ok(dataResponse);
     }
 
 }

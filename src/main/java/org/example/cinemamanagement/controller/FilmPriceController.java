@@ -18,6 +18,7 @@ public class FilmPriceController {
 
     @PostMapping
     public ResponseEntity<?> addFilmPrice(@RequestBody AddFilmPriceRequest req) {
-        return ResponseEntity.ok(filmPriceService.addFilmPrice(req));
+        filmPriceService.addFilmPrice(req);
+        return ResponseEntity.ok("Message: Add film price successfully");
     }
 }

@@ -1,6 +1,7 @@
 package org.example.cinemamanagement.controller;
 
 import org.example.cinemamanagement.payload.request.AddSeatPriceRequest;
+import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.SeatPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +17,25 @@ public class SeatPriceController {
 
     @PostMapping
     public ResponseEntity<?> addSeatPrice(@RequestBody AddSeatPriceRequest req) {
-        return ResponseEntity.ok(seatPriceService.addSeatPrice(req));
+        seatPriceService.addSeatPrice(req);
+        return ResponseEntity.ok("Message: Add seat price successfully");
     }
 
     @GetMapping("/{performId}")
     public ResponseEntity<?> getAllSeatPrice(@PathVariable UUID performId) {
-        return ResponseEntity.ok(seatPriceService.getAllSeatPrice(performId));
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Get all seat price successfully");
+        dataResponse.setData(seatPriceService.getAllSeatPrice(performId));
+
+        return ResponseEntity.ok(dataResponse);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSeatPrice(@PathVariable UUID id) {
-        return ResponseEntity.ok(seatPriceService.deleteSeatPrice(id));
+        seatPriceService.deleteSeatPrice(id);
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Seat price deleted successfully");
+        return ResponseEntity.ok(dataResponse);
     }
 }
