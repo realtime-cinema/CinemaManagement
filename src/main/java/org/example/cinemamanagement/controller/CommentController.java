@@ -67,6 +67,8 @@ public class CommentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteComment(@PathVariable UUID id) {
         commentService.deleteComment(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Comment deleted successfully");
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Comment deleted successfully");
+        return ResponseEntity.ok(dataResponse);
     }
 }

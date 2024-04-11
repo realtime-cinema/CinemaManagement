@@ -29,6 +29,8 @@ public class PaymentController {
     @PostMapping
     public ResponseEntity<?> addPayment(@RequestBody AddPaymentRequest req) {
         paymentService.addPayment(req);
-        return ResponseEntity.ok("Message: Add payment successfully");
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Add payment successfully");
+        return ResponseEntity.ok(dataResponse);
     }
 }

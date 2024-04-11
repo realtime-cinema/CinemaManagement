@@ -56,8 +56,13 @@ public class CinemaLayoutController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteLayout(@PathVariable UUID id) {
+
         cinemaLayoutService.deleteCinemaLayout(id);
-        return ResponseEntity.ok("Message: Cinema layout deleted successfully!");
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Layout deleted successfully");
+
+        return ResponseEntity.ok(dataResponse);
     }
 
 }

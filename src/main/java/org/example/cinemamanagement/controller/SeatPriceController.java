@@ -34,6 +34,8 @@ public class SeatPriceController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSeatPrice(@PathVariable UUID id) {
         seatPriceService.deleteSeatPrice(id);
-        return ResponseEntity.ok("Message: Seat price deleted successfully");
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Seat price deleted successfully");
+        return ResponseEntity.ok(dataResponse);
     }
 }

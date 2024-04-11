@@ -73,8 +73,12 @@ public class CinemaController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCinema(@PathVariable(value = "id") UUID id) {
+
         cinemaService.deleteCinema(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Message: Cinema deleted successfully");
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Cinema deleted successfully");
+        
+        return ResponseEntity.status(HttpStatus.OK).body(dataResponse);
     }
 
 
