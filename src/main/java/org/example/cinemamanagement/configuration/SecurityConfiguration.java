@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
 
 @Configuration
 @EnableWebSecurity
@@ -26,14 +28,24 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/test/**").permitAll()
-                        .requestMatchers("/api/manager/**").hasRole(Role.MANAGER_ADMIN.name())
-                        .requestMatchers("/api/owner/**").hasRole(Role.OWNER.name())
-                        .requestMatchers("/api/cinema/**").permitAll()
+                        .requestMatchers("/api/v1/managers/**").hasAuthority(Role.MANAGER_ADMIN.name())
+                        .requestMatchers("/api/owner/**").hasAuthority(Role.OWNER.name())
+                        .requestMatchers("/api/vnpay/**").permitAll()
+                        .requestMatchers("/api/v1/vnpay/**").permitAll()
+                        .requestMatchers("/api/v1/films").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
+                .cors(cors -> {
+                    CorsConfiguration configuration = new CorsConfiguration();
+                    configuration.addAllowedOrigin("*");
+                    configuration.addAllowedMethod("*");
+                    configuration.addAllowedHeader("*");
+                    cors.configurationSource(request -> configuration);
+                })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
 }
+

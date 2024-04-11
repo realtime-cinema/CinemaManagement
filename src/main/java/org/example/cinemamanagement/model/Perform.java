@@ -1,10 +1,12 @@
 package org.example.cinemamanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -54,10 +56,17 @@ public class Perform {
     )
     private CinemaRoom cinemaRoom;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "perform", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PickSeat> pickSeats;
+
     @Column(name = "start_time")
     private Timestamp startTime;
 
     @Column(name = "end_time")
     private Timestamp endTime;
-}
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "perform")
+    private List<SeatPrice> seatPrices;
+}

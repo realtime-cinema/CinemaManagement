@@ -1,4 +1,4 @@
-package org.example.cinemamanagement.service;
+package org.example.cinemamanagement.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -7,11 +7,16 @@ import org.example.cinemamanagement.common.Role;
 import org.example.cinemamanagement.dto.CinemaManagerDTO;
 import org.example.cinemamanagement.model.Cinema;
 import org.example.cinemamanagement.model.User;
+import org.example.cinemamanagement.repository.BusinessRepository;
 import org.example.cinemamanagement.repository.CinemaRepository;
 import org.example.cinemamanagement.repository.UserRepository;
+import org.example.cinemamanagement.service.CinemaManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -27,6 +32,8 @@ public class CinemaManagerServiceImpl implements CinemaManagerService {
     @Autowired
     CinemaRepository cinemaRepository;
 
+    @Autowired
+    private BusinessRepository businessRepository;
 
     @Override
     @Transactional
@@ -42,25 +49,6 @@ public class CinemaManagerServiceImpl implements CinemaManagerService {
 
     }
 
-
-    @Override
-    public CinemaManagerDTO deleteCinemaManagerOutOfCinema(String emailUser, UUID idCinema) {
-        Cinema cinema = cinemaRepository.findById(idCinema).get();
-        User user = userRepository.findUserByEmail(emailUser).get();
-        if (cinema == null || user == null) {
-            return null;
-        }
-        cinema.getCinemaManagers()
-                .remove(userRepository.findUserByEmail(emailUser)
-                        .get());
-        cinemaRepository.save(cinema);
-        return CinemaManagerDTO
-                .builder()
-                .user(user)
-                .cinemas(user.getCinemas())
-                .build();
-    }
-
     @Override
     public void updateCinemaManager(String emailUser, UUID idCinema) {
 
@@ -72,7 +60,7 @@ public class CinemaManagerServiceImpl implements CinemaManagerService {
     }
 
     @Override
-    public List<CinemaManagerDTO> getAllCinemaManager(UUID idCinema) {
+    public List<CinemaManagerDTO> getAllCinemaManagerFromCinema(UUID idCinema) {
         return cinemaRepository.findById(idCinema).get()
                 .getCinemaManagers()
                 .stream().map(
@@ -83,5 +71,19 @@ public class CinemaManagerServiceImpl implements CinemaManagerService {
                         }
                 ).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Object[]> getTotalAmountOfCinemaInMonth() {
+        User userTemp = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.findById(userTemp.getId()).orElseThrow(
+                () -> new RuntimeException("User not found")
+        );
+
+        LocalDate today = LocalDate.now();
+        LocalDate thirtyDaysAgo = today.minus(30, ChronoUnit.DAYS);
+
+        return businessRepository.getTotalAmountOfCinemaInMonth(userTemp.getId(), thirtyDaysAgo, today);
+    }
+
 }
 

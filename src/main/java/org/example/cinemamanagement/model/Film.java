@@ -38,7 +38,16 @@ public class Film {
     @Column(name = "restrict_age")
     private Integer restrictAge;
 
+    @Column(name = "picture_url")
+    private String pictureUrl;
 
+    @Column(name = "traier_url")
+    private String trailerUrl;
+
+    @Column(name = "duration")
+    private Integer duration;
+
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "film")
     private List<Comment> comments;
 
@@ -54,4 +63,9 @@ public class Film {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "film")
     private List<Perform> performs;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "film")
+    private List<FilmPrice> filmPrices;
+
 }
