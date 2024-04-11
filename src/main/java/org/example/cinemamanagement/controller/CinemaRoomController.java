@@ -1,6 +1,7 @@
 package org.example.cinemamanagement.controller;
 
 import org.example.cinemamanagement.payload.request.AddCinemaRoomRequest;
+import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.CinemaRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,12 @@ public class CinemaRoomController {
 
     @PostMapping
     public ResponseEntity<?> addRoom(@RequestBody AddCinemaRoomRequest addCinemaRoomRequest) {
-        return ResponseEntity.ok(cinemaRoomService
-                .addCinemaRoom(addCinemaRoomRequest));
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Add cinema room successfully");
+        dataResponse.setData(cinemaRoomService.addCinemaRoom(addCinemaRoomRequest));
+
+        return ResponseEntity.ok(dataResponse);
     }
 
     @PutMapping
