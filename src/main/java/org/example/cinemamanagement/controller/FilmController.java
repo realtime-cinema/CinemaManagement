@@ -1,14 +1,11 @@
 package org.example.cinemamanagement.controller;
 
-import org.example.cinemamanagement.dto.FilmDTO;
 import org.example.cinemamanagement.payload.request.AddFilmRequest;
 import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/films")
@@ -23,7 +20,7 @@ public class FilmController {
 
     @GetMapping
     public ResponseEntity<?> getFilms() {
-
+        System.out.println("Get all films");
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Get all films successfully");
         dataResponse.setData(filmService.getAllFilms());

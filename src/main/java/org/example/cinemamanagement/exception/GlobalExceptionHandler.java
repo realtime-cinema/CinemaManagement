@@ -1,5 +1,6 @@
 package org.example.cinemamanagement.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,5 +19,16 @@ public class GlobalExceptionHandler {
                 .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
+
+//    @ExceptionHandler(value = {ExpiredJwtException.class})
+//    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+//    public ResponseEntity<Object> handleExpiredJwtException(ExpiredJwtException ex) {
+//        ErrorMessage exceptionMessage = ErrorMessage.builder()
+//                .statusCode(HttpStatus.FORBIDDEN.value())
+//                .timestamp(new java.sql.Timestamp(System.currentTimeMillis()))
+//                .message(ex.getLocalizedMessage())
+//                .build();
+//        return new ResponseEntity<>(exceptionMessage, HttpStatus.FORBIDDEN);
+//    }
 }
 
