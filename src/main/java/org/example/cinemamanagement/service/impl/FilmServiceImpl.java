@@ -60,9 +60,9 @@ public class FilmServiceImpl implements FilmService {
                         .restrictAge(addFilmRequest.getRestrictAge())
                         .pictureUrl(addFilmRequest.getPictureUrl())
                         .trailerUrl(addFilmRequest.getTrailerUrl())
+                        .duration(addFilmRequest.getDuration())
                         .tags(tags)
                         .build());
-
         return FilmMapper.toDTO(tempFilm);
     }
 
