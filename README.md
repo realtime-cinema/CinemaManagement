@@ -1,5 +1,10 @@
 ## About Application
 Project is Cinema Management. The main feature is ordering seat feature with realtime. And System structure of its is micro-service( all services point to  one database). My team use Java just for API. And will use Nodejs for runtime.
+
+### Tech used
+Spring boot, Spring security, JWT
+### Integaration
+VNPay e-wallet
 ### A little bit with ordering seat realtime feature
 Most Applications's ordering seat is just a normal API, if two or more users at the same time request to order just same seat, if the person whose condition good than, they will have that seat, ortherwise that person will be in the queue constantly.
 And myteam's solution is: if a person who pick before, that this seat will lock preventing to other request that want to pick it. if fail, just rollback, and the seat will available.
@@ -13,4 +18,4 @@ LINK: https://dbdiagram.io/d/Trat-DJien-ITMC-Solution-65bf2fc6ac844320ae6458be
 
 
 ## Progress
-Just done some CRUD API helping for building client. When Client need some service. My backend team will build more.
+Done

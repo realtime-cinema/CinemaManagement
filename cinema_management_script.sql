@@ -38,7 +38,6 @@ create table cinema_layout_and_cinema_relationship(
     foreign key (cinema_id) references cinema(id)
 );
 
-
 create table cinema_manager(
     cinema_id binary(16) not null,
     user_id binary(16) not null ,
@@ -131,6 +130,15 @@ create table film_price
     type varchar(100) not null,
     price int not null,
     foreign key(film_id) references film(id)
+);
+
+CREATE TABLE seat_payment
+(
+    id binary(16) not null,
+    payment_id binary(16) not null,
+    pick_seat_id binary(16) not null,
+    primary key(id),
+    foreign key (payment_id) references payment(id)
 );
 
 alter table tag add  column  name varchar (50) NOT NULL ;

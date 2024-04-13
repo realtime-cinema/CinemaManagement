@@ -2,11 +2,11 @@ version: "3"
 services:
   springboot-app:
     build:
-      context: .  # use the current directory as the build context
+      context: . # use the current directory as the build contexts
       dockerfile: Dockerfile
     container_name: springboot-app
     ports:
-      - 8080:8080
+      - 9999:9999
     environment:
       #      MYSQL_PORT: 3306
       #      MYSQL_DATABASE: cinema_management
@@ -14,16 +14,16 @@ services:
       #      MYSQL_PASSWORD: 123456
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/cinema_management
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 123456
+      SPRING_DATASOURCE_PASSWORD: visualc++
+      SERVER_PORT: 9999
     depends_on:
       - db
-
 
   db:
     container_name: db
     image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: visualc++
       MYSQL_DATABASE: cinema_management
 
     ports:
@@ -33,15 +33,4 @@ services:
       - ./mysql/data:/var/lib/mysql
       - ./mysql/cinema_management_script.sql:/docker-entrypoint-initdb.d/cinema_management_script.sql
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: pma
-    links:
-      - db
-    environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
-    restart: always
-    ports:
-      - 8081:81
+

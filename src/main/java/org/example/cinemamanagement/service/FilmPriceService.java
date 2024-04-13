@@ -1,7 +1,6 @@
 package org.example.cinemamanagement.service;
 
 import org.example.cinemamanagement.dto.FilmPriceDTO;
-import org.example.cinemamanagement.model.FilmPrice;
 import org.example.cinemamanagement.payload.request.AddFilmPriceRequest;
 
 import java.util.List;

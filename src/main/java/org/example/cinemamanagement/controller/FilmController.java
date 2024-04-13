@@ -2,6 +2,7 @@ package org.example.cinemamanagement.controller;
 
 import org.example.cinemamanagement.dto.FilmDTO;
 import org.example.cinemamanagement.payload.request.AddFilmRequest;
+import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +23,23 @@ public class FilmController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FilmDTO>> getFilms() {
-        return ResponseEntity.ok(filmService.getAllFilms());
+    public ResponseEntity<?> getFilms() {
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Get all films successfully");
+        dataResponse.setData(filmService.getAllFilms());
+
+        return ResponseEntity.ok(dataResponse);
     }
 
     @PostMapping
-    public ResponseEntity<FilmDTO> addFilm(@RequestBody AddFilmRequest addFilmRequest) {
-        System.out.println(addFilmRequest);
-        return ResponseEntity.ok(filmService.addFilm(addFilmRequest));
+    public ResponseEntity<?> addFilm(@RequestBody AddFilmRequest addFilmRequest) {
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Add film successfully");
+        dataResponse.setData(filmService.addFilm(addFilmRequest));
+
+        return ResponseEntity.ok(dataResponse);
     }
 
     @DeleteMapping("/{id}")
