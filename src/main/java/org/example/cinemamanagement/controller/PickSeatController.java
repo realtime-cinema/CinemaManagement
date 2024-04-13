@@ -1,10 +1,11 @@
 package org.example.cinemamanagement.controller;
 
-import io.socket.client.Socket;
 import org.example.cinemamanagement.dto.PickSeatDTO;
 import org.example.cinemamanagement.payload.request.PickSeatRequest;
 import org.example.cinemamanagement.payload.response.DataResponse;
+import org.example.cinemamanagement.payload.response.SocketResponse;
 import org.example.cinemamanagement.service.PickSeatService;
+import org.example.cinemamanagement.service.SocketIOService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +18,12 @@ import java.util.UUID;
 public class PickSeatController {
 
     PickSeatService pickSeatService;
-    Socket socket;
+    SocketIOService socketIOService;
 
     @Autowired
-    public PickSeatController(PickSeatService pickSeatService) {
+    public PickSeatController(PickSeatService pickSeatService, SocketIOService socketIOService) {
         this.pickSeatService = pickSeatService;
+        this.socketIOService = socketIOService;
     }
 
     @GetMapping
@@ -49,7 +51,15 @@ public class PickSeatController {
 
         dataResponse.setData(data);
 
-        socket.emit("pick-seat", data);
+        List<SocketResponse> socketResponses = data.stream().map(pickSeatDTO -> {
+            return SocketResponse.builder()
+                    .x(pickSeatDTO.getX())
+                    .y(pickSeatDTO.getY())
+                    .performId(pickSeatDTO.getPerformDTO().getId())
+                    .build();
+        }).toList();
+
+        socketIOService.emit("pick-seat", socketResponses);
         return ResponseEntity.ok(dataResponse);
     }
 
