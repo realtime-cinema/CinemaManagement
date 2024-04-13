@@ -29,5 +29,6 @@ public class FilmDTO {
     @JsonProperty("trailer_url")
     private String trailerUrl;
     private Integer duration;
+    private String description;
 
 }

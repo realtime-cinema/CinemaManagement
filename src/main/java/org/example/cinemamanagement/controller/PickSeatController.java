@@ -1,5 +1,6 @@
 package org.example.cinemamanagement.controller;
 
+import io.socket.client.Socket;
 import org.example.cinemamanagement.dto.PickSeatDTO;
 import org.example.cinemamanagement.payload.request.PickSeatRequest;
 import org.example.cinemamanagement.payload.response.DataResponse;
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class PickSeatController {
 
     PickSeatService pickSeatService;
+    Socket socket;
 
     @Autowired
     public PickSeatController(PickSeatService pickSeatService) {
@@ -41,10 +43,13 @@ public class PickSeatController {
     public ResponseEntity<?> addPickSeat(@PathVariable UUID performID,
                                          @RequestBody List<PickSeatRequest> pickSeatRequests) {
 
+        List<PickSeatDTO> data = pickSeatService.addPickSeat(pickSeatRequests, performID);
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Add pick seat successfully");
-        dataResponse.setData(pickSeatService.addPickSeat(pickSeatRequests, performID));
 
+        dataResponse.setData(data);
+
+        socket.emit("pick-seat", data);
         return ResponseEntity.ok(dataResponse);
     }
 
