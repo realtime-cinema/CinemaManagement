@@ -16,7 +16,11 @@ public class CinemaRoomController {
 
     @GetMapping
     public ResponseEntity<?> getAllRoom() {
-        return ResponseEntity.ok("All room");
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Add cinema room successfully");
+        dataResponse.setData(cinemaRoomService.getAllCinemaRooms());
+
+        return ResponseEntity.ok(dataResponse);
     }
 
     @PostMapping
