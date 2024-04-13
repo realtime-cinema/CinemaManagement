@@ -47,4 +47,13 @@ public class FilmController {
         filmService.deleteFilm(id);
         return ResponseEntity.ok("Film deleted");
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getFilmById(@PathVariable UUID id) {
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Get film by id successfully");
+        dataResponse.setData(filmService.getFilmById(id));
+
+        return ResponseEntity.ok(dataResponse);
+    }
 }
