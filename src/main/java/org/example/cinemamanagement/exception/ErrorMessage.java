@@ -15,4 +15,5 @@ public class ErrorMessage {
     @JsonProperty("status_code")
     private int statusCode;
     private String message;
+    private Object data;
 }
