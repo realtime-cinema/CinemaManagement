@@ -32,3 +32,5 @@ services:
     volumes:
       - ./mysql/data:/var/lib/mysql
       - ./mysql/cinema_management_script.sql:/docker-entrypoint-initdb.d/cinema_management_script.sql
+
+
