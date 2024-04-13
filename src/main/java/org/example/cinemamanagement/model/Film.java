@@ -52,7 +52,11 @@ public class Film {
     private List<Comment> comments;
 
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH
+    }, fetch = FetchType.LAZY)
     @JoinTable(
             name = "film_tag_relationship",
             joinColumns = @JoinColumn(name = "film_id"),
