@@ -1,6 +1,5 @@
 package org.example.cinemamanagement.service;
 
-import io.socket.client.Socket;
 import org.example.cinemamanagement.dto.PickSeatDTO;
 import org.example.cinemamanagement.payload.request.PickSeatRequest;
 
@@ -16,7 +15,5 @@ public interface PickSeatService {
 
     public List<PickSeatDTO> addPickSeat(List<PickSeatRequest> pickSeatRequests, UUID performId);
 
-    PickSeatDTO deletePickSeat();
-
-    Socket getSocket();
+    List<UUID> deletePickSeat(List<UUID> pickSeatIds);
 }

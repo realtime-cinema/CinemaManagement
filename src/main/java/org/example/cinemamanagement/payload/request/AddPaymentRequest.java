@@ -13,5 +13,5 @@ public class AddPaymentRequest {
     private Long amount;
 
     @JsonProperty("list_pick_seat")
-    private List<AddPickSeatRequest> pickSeats;
+    private List<AddOrDeletePickSeatRequest> pickSeats;
 }

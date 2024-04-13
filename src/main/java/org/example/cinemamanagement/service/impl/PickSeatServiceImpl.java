@@ -1,6 +1,5 @@
 package org.example.cinemamanagement.service.impl;
 
-import io.socket.client.Socket;
 import org.example.cinemamanagement.dto.PickSeatDTO;
 import org.example.cinemamanagement.mapper.PickSeatMapper;
 import org.example.cinemamanagement.model.Perform;
@@ -93,15 +92,11 @@ public class PickSeatServiceImpl implements PickSeatService {
         return null;
     }
 
-
     @Override
-    public PickSeatDTO deletePickSeat() {
-        return null;
-    }
-
-    @Override
-    public Socket getSocket() {
-        Socket socket = null;
-        return socket;
+    public List<UUID> deletePickSeat(List<UUID> pickSeatIds) {
+        pickSeatIds.forEach(pickSeatId -> {
+            pickSeatRepository.deleteById(pickSeatId);
+        });
+        return pickSeatIds;
     }
 }
