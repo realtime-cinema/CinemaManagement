@@ -2,8 +2,10 @@ package org.example.cinemamanagement.repository;
 
 import org.example.cinemamanagement.model.PickSeat;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +21,8 @@ public interface PickSeatRepository extends JpaRepository<PickSeat, UUID> {
 
     List<PickSeat> findByPerformId(UUID performId);
 
-    @Query("DELETE FROM PickSeat p WHERE p.x = ?1 and p.y = ?2")
+    @Query(value = "DELETE FROM PickSeat p WHERE p.x = ?1 and p.y = ?2")
+    @Transactional
+    @Modifying
     void deleteByXAndY(Integer x, Integer y);
 }

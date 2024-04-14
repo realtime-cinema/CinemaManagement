@@ -56,7 +56,8 @@ public class PickSeatController {
             return SocketResponse.builder()
                     .x(pickSeatDTO.getX())
                     .y(pickSeatDTO.getY())
-                    .roomID(pickSeatDTO.getPerformDTO().getCinemaRoomDTO().getId())
+//                    .roomID(pickSeatDTO.getPerformDTO().getCinemaRoomDTO().getId())
+                    .performID(pickSeatDTO.getPerformDTO().getId())
                     .build();
         }).toList();
 
