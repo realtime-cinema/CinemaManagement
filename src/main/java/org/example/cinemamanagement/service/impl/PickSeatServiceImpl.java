@@ -96,7 +96,10 @@ public class PickSeatServiceImpl implements PickSeatService {
     @Override
     public String deletePickSeat(List<DeletePickSeatRequest> deletePickSeatRequests) {
         deletePickSeatRequests.forEach(deletePickSeatRequest -> {
-            pickSeatRepository.deleteByXAndY(deletePickSeatRequest.getX(), deletePickSeatRequest.getY());
+            pickSeatRepository.deleteByXAndY(deletePickSeatRequest.getX(),
+                    deletePickSeatRequest.getY(),
+                    deletePickSeatRequest.getPerformID()
+            );
         });
 
         return "Delete pick seat successfully";
