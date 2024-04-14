@@ -32,7 +32,7 @@ public class FilmPriceServiceImpl implements FilmPriceService {
     public String addFilmPrice(AddFilmPriceRequest req) {
         Film film = filmRepository.findById(req.getFilmId())
                 .orElseThrow(() -> new NotFoundException("Film not found"));
-        if (req.getPrice() == null)
+        if (req.getType() == null)
             throw new ApiException("Type not allow NULL");
         if (req.getPrice() == null)
             throw new ApiException("Price not allow NULL");
