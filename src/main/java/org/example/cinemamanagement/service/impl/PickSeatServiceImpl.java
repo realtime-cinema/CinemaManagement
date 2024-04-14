@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -36,7 +37,7 @@ public class PickSeatServiceImpl implements PickSeatService {
 
     @Override
     @Transactional
-    public List<PickSeatDTO> addPickSeat(List<PickSeatRequest> pickSeatRequests, UUID performId) {
+    public Object addPickSeat(List<PickSeatRequest> pickSeatRequests, UUID performId) {
         Perform perform = performRepository.findById(performId).orElseThrow(
                 () -> new RuntimeException("Perform not found")
         );
@@ -67,9 +68,12 @@ public class PickSeatServiceImpl implements PickSeatService {
             pickSeatRepository.save(pickSeat);
         });
 
-        return pickSeatRepository.findByUserId(user.getId()).stream()
-                .map(PickSeatMapper::toDTO)
-                .toList();
+        return Map.of("seats", pickSeatRequests.stream().map(pickSeatRequest -> {
+            return SocketResponse.builder()
+                    .x(pickSeatRequest.getX())
+                    .y(pickSeatRequest.getY())
+                    .build();
+        }), "performID", performId);
     }
 
     @Override
@@ -103,13 +107,12 @@ public class PickSeatServiceImpl implements PickSeatService {
             );
         });
 
-        List<PickSeat> dataExisted = pickSeatRepository.findAllByPerformId(performID);
-        return dataExisted.stream().map(data -> {
+        return Map.of("seats", deletePickSeatRequests.stream().map(deletePickSeatRequest -> {
             return SocketResponse.builder()
-                    .x(data.getX())
-                    .y(data.getY())
-                    .performID(data.getPerform().getId())
+                    .x(deletePickSeatRequest.getX())
+                    .y(deletePickSeatRequest.getY())
                     .build();
-        }).toList();
+        }).toList(), "performID", performID);
     }
+
 }

@@ -14,7 +14,9 @@ public interface PickSeatService {
 
     PickSeatDTO getPickSeatById();
 
-    public List<PickSeatDTO> addPickSeat(List<PickSeatRequest> pickSeatRequests, UUID performId);
+    public Object addPickSeat(List<PickSeatRequest> pickSeatRequests, UUID performId);
+
 
     Object deletePickSeat(List<DeletePickSeatRequest> deletePickSeatRequests, UUID performID);
+
 }
