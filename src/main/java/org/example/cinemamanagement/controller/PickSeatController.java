@@ -58,7 +58,7 @@ public class PickSeatController {
         dataResponse.setMessage("Add pick seat successfully");
         dataResponse.setData(socketResponses);
 
-        socketIOService.emit("pick-seat", Map.of("performID", performID, "seats", socketResponses));
+        socketIOService.emit("seat-add", Map.of("performID", performID, "seats", socketResponses));
         return ResponseEntity.ok(Map.of("performID", performID, "seats", socketResponses));
     }
 
