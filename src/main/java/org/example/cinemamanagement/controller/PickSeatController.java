@@ -9,6 +9,7 @@ import org.example.cinemamanagement.service.PickSeatService;
 import org.example.cinemamanagement.service.SocketIOService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -65,10 +66,10 @@ public class PickSeatController {
         return ResponseEntity.ok(dataResponse);
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deletePickSeat(@RequestBody List<DeletePickSeatRequest> DeletePickSeatRequests) {
-
-        Object data = pickSeatService.deletePickSeat(DeletePickSeatRequests);
+    @DeleteMapping("/{performID}")
+    public ResponseEntity<?> deletePickSeat(@RequestBody List<DeletePickSeatRequest> DeletePickSeatRequests, @PathVariable UUID performID) {
+        Object data = pickSeatService.deletePickSeat(DeletePickSeatRequests, performID);
+        // this emit for sending to client the existed pick seat
         socketIOService.emit("pick-seat", data);
         return ResponseEntity.ok(DataResponse.builder()
                 .data(data)

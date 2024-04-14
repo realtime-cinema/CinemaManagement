@@ -95,18 +95,20 @@ public class PickSeatServiceImpl implements PickSeatService {
     }
 
     @Override
-    public Object deletePickSeat(List<DeletePickSeatRequest> deletePickSeatRequests) {
+    public Object deletePickSeat(List<DeletePickSeatRequest> deletePickSeatRequests, UUID performID) {
         deletePickSeatRequests.forEach(deletePickSeatRequest -> {
             pickSeatRepository.deleteByXAndY(deletePickSeatRequest.getX(),
                     deletePickSeatRequest.getY(),
-                    deletePickSeatRequest.getPerformID()
+                    performID
             );
         });
-        return deletePickSeatRequests.stream().map(deletePickSeatRequest -> {
+
+        List<PickSeat> dataExisted = pickSeatRepository.findAllByPerformId(performID);
+        return dataExisted.stream().map(data -> {
             return SocketResponse.builder()
-                    .x(deletePickSeatRequest.getX())
-                    .y(deletePickSeatRequest.getY())
-                    .performID(deletePickSeatRequest.getPerformID())
+                    .x(data.getX())
+                    .y(data.getY())
+                    .performID(data.getPerform().getId())
                     .build();
         }).toList();
     }

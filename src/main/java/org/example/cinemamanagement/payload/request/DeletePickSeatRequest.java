@@ -13,6 +13,6 @@ import java.util.UUID;
 public class DeletePickSeatRequest {
     private Integer x;
     private Integer y;
-    @JsonProperty("perform_id")
-    private UUID performID;
+//    @JsonProperty("perform_id")
+//    private UUID performID;
 }

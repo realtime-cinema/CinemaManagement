@@ -25,4 +25,7 @@ public interface PickSeatRepository extends JpaRepository<PickSeat, UUID> {
     @Transactional
     @Modifying
     void deleteByXAndY(Integer x, Integer y, UUID performID);
+
+    @Query("SELECT p FROM PickSeat p WHERE p.perform.id= ?1")
+    List<PickSeat> findAllByPerformId(UUID performID);
 }
