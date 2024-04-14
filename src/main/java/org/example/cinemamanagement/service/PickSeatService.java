@@ -1,6 +1,7 @@
 package org.example.cinemamanagement.service;
 
 import org.example.cinemamanagement.dto.PickSeatDTO;
+import org.example.cinemamanagement.payload.request.DeletePickSeatRequest;
 import org.example.cinemamanagement.payload.request.PickSeatRequest;
 
 import java.util.List;
@@ -15,5 +16,5 @@ public interface PickSeatService {
 
     public List<PickSeatDTO> addPickSeat(List<PickSeatRequest> pickSeatRequests, UUID performId);
 
-    List<UUID> deletePickSeat(List<UUID> pickSeatIds);
+    String deletePickSeat(List<DeletePickSeatRequest> deletePickSeatRequests);
 }

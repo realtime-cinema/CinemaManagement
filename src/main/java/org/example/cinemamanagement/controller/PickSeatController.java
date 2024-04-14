@@ -1,7 +1,7 @@
 package org.example.cinemamanagement.controller;
 
 import org.example.cinemamanagement.dto.PickSeatDTO;
-import org.example.cinemamanagement.payload.request.AddOrDeletePickSeatRequest;
+import org.example.cinemamanagement.payload.request.DeletePickSeatRequest;
 import org.example.cinemamanagement.payload.request.PickSeatRequest;
 import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.payload.response.SocketResponse;
@@ -65,14 +65,10 @@ public class PickSeatController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deletePickSeat(@RequestBody List<AddOrDeletePickSeatRequest> DeletePickSeatRequests) {
-
+    public ResponseEntity<?> deletePickSeat(@RequestBody List<DeletePickSeatRequest> DeletePickSeatRequests) {
         return ResponseEntity.ok(DataResponse.builder()
+                .data(pickSeatService.deletePickSeat(DeletePickSeatRequests))
                 .message("Delete pick seat successfully")
-                .data(pickSeatService.deletePickSeat(DeletePickSeatRequests
-                        .stream()
-                        .map(AddOrDeletePickSeatRequest::getId)
-                        .toList()))
                 .build());
     }
 }

@@ -14,7 +14,7 @@ public class SocketIOServiceImpl implements SocketIOService {
 
     @PostConstruct
     public void init() throws URISyntaxException {
-        socket = IO.socket("http://localhost:9998");
+        socket = IO.socket("http://khoakomlem-internal.ddns.net:9998");
         socket.connect();
     }
 
