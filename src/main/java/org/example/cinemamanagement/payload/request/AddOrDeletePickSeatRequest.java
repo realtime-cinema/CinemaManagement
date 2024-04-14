@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class AddPickSeatRequest {
+public class AddOrDeletePickSeatRequest {
     @JsonProperty("pick_seat_id")
     private UUID id;
 }

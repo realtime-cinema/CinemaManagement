@@ -1,6 +1,6 @@
 package org.example.cinemamanagement.controller;
 
-import org.example.cinemamanagement.dto.PickSeatDTO;
+import org.example.cinemamanagement.payload.request.DeletePickSeatRequest;
 import org.example.cinemamanagement.payload.request.PickSeatRequest;
 import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.payload.response.SocketResponse;
@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -37,34 +38,48 @@ public class PickSeatController {
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Get all picked seats successfully");
         dataResponse.setData(pickSeatService.getAllSeatsPickedOfPerform(performID));
-
         return ResponseEntity.ok(dataResponse);
     }
 
     @PostMapping("/{performID}")
-    public ResponseEntity<?> addPickSeat(@PathVariable UUID performID,
-                                         @RequestBody List<PickSeatRequest> pickSeatRequests) {
+    public ResponseEntity<?> addPickSeats(@PathVariable UUID performID,
+                                          @RequestBody List<PickSeatRequest> pickSeatRequests) {
 
-        List<PickSeatDTO> data = pickSeatService.addPickSeat(pickSeatRequests, performID);
-        DataResponse dataResponse = new DataResponse();
-        dataResponse.setMessage("Add pick seat successfully");
+        pickSeatService.addPickSeat(pickSeatRequests, performID);
 
-        dataResponse.setData(data);
-
-        List<SocketResponse> socketResponses = data.stream().map(pickSeatDTO -> {
+        List<SocketResponse> socketResponses = pickSeatRequests.stream().map(pickSeatRequest -> {
             return SocketResponse.builder()
-                    .x(pickSeatDTO.getX())
-                    .y(pickSeatDTO.getY())
-                    .performId(pickSeatDTO.getPerformDTO().getId())
+                    .x(pickSeatRequest.getX())
+                    .y(pickSeatRequest.getY())
                     .build();
         }).toList();
 
-        socketIOService.emit("pick-seat", socketResponses);
-        return ResponseEntity.ok(dataResponse);
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Add pick seat successfully");
+        dataResponse.setData(socketResponses);
+
+        socketIOService.emit("seat-add", Map.of("performID", performID, "seats", socketResponses));
+        return ResponseEntity.ok(Map.of("performID", performID, "seats", socketResponses));
     }
 
-    @DeleteMapping("/{id}")
-    public String deletePickSeat() {
-        return "Delete Pick Seat";
+    @DeleteMapping("/{performID}")
+    public ResponseEntity<?> deletePickSeat(@RequestBody List<DeletePickSeatRequest> DeletePickSeatRequests, @PathVariable UUID performID) {
+        pickSeatService.deletePickSeat(DeletePickSeatRequests, performID);
+
+        Object data = Map.of("performID", performID, "seats", DeletePickSeatRequests.stream()
+                .map(deletePickSeatRequest -> {
+                    return SocketResponse.builder()
+                            .x(deletePickSeatRequest.getX())
+                            .y(deletePickSeatRequest.getY())
+                            .build();
+                }).toList());
+
+        socketIOService.emit("seat-remove", data);
+        return ResponseEntity.ok(DataResponse.builder()
+                .data(data)
+                .message("Delete pick seat successfully")
+                .build());
+
     }
 }
+

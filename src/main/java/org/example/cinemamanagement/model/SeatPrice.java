@@ -16,7 +16,12 @@ public class SeatPrice {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH,
+            CascadeType.DETACH
+    })
     private Perform perform;
 
     @Column(name = "x")
@@ -27,5 +32,4 @@ public class SeatPrice {
 
     @Column(name = "price")
     private Long price;
-
 }

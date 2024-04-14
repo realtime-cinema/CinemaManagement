@@ -3,7 +3,7 @@ package org.example.cinemamanagement.service.impl;
 import org.example.cinemamanagement.model.Payment;
 import org.example.cinemamanagement.model.PickSeat;
 import org.example.cinemamanagement.model.SeatPayment;
-import org.example.cinemamanagement.payload.request.AddPickSeatRequest;
+import org.example.cinemamanagement.payload.request.AddOrDeletePickSeatRequest;
 import org.example.cinemamanagement.repository.PaymentRepository;
 import org.example.cinemamanagement.repository.PickSeatRepository;
 import org.example.cinemamanagement.repository.SeatPaymentRepository;
@@ -26,7 +26,7 @@ public class SeatPaymentServiceImpl implements SeatPaymentService {
     private SeatPaymentRepository seatPaymentRepository;
 
     @Override
-    public String addListSeatOfPayment(UUID paymentId, List<AddPickSeatRequest> listSeat) {
+    public String addListSeatOfPayment(UUID paymentId, List<AddOrDeletePickSeatRequest> listSeat) {
 
         Payment payment = paymentRepository.findById(paymentId)
                 .orElseThrow(() -> new RuntimeException("Payment not found"));

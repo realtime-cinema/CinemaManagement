@@ -15,6 +15,7 @@ public class GlobalExceptionHandler {
                 .statusCode(HttpStatus.NOT_FOUND.value())
                 .timestamp(new java.sql.Timestamp(System.currentTimeMillis()))
                 .message(ex.getLocalizedMessage())
+                .data(null)
                 .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }

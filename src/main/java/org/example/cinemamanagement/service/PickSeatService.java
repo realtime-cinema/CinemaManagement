@@ -1,7 +1,7 @@
 package org.example.cinemamanagement.service;
 
-import io.socket.client.Socket;
 import org.example.cinemamanagement.dto.PickSeatDTO;
+import org.example.cinemamanagement.payload.request.DeletePickSeatRequest;
 import org.example.cinemamanagement.payload.request.PickSeatRequest;
 
 import java.util.List;
@@ -14,9 +14,9 @@ public interface PickSeatService {
 
     PickSeatDTO getPickSeatById();
 
-    public List<PickSeatDTO> addPickSeat(List<PickSeatRequest> pickSeatRequests, UUID performId);
+    public Object addPickSeat(List<PickSeatRequest> pickSeatRequests, UUID performId);
 
-    PickSeatDTO deletePickSeat();
 
-    Socket getSocket();
+    Object deletePickSeat(List<DeletePickSeatRequest> deletePickSeatRequests, UUID performID);
+
 }

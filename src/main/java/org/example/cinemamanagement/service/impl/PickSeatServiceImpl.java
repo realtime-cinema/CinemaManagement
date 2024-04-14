@@ -1,12 +1,13 @@
 package org.example.cinemamanagement.service.impl;
 
-import io.socket.client.Socket;
 import org.example.cinemamanagement.dto.PickSeatDTO;
 import org.example.cinemamanagement.mapper.PickSeatMapper;
 import org.example.cinemamanagement.model.Perform;
 import org.example.cinemamanagement.model.PickSeat;
 import org.example.cinemamanagement.model.User;
+import org.example.cinemamanagement.payload.request.DeletePickSeatRequest;
 import org.example.cinemamanagement.payload.request.PickSeatRequest;
+import org.example.cinemamanagement.payload.response.SocketResponse;
 import org.example.cinemamanagement.repository.PerformRepository;
 import org.example.cinemamanagement.repository.PickSeatRepository;
 import org.example.cinemamanagement.repository.UserRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -35,7 +37,7 @@ public class PickSeatServiceImpl implements PickSeatService {
 
     @Override
     @Transactional
-    public List<PickSeatDTO> addPickSeat(List<PickSeatRequest> pickSeatRequests, UUID performId) {
+    public Object addPickSeat(List<PickSeatRequest> pickSeatRequests, UUID performId) {
         Perform perform = performRepository.findById(performId).orElseThrow(
                 () -> new RuntimeException("Perform not found")
         );
@@ -66,9 +68,12 @@ public class PickSeatServiceImpl implements PickSeatService {
             pickSeatRepository.save(pickSeat);
         });
 
-        return pickSeatRepository.findByUserId(user.getId()).stream()
-                .map(PickSeatMapper::toDTO)
-                .toList();
+        return Map.of("seats", pickSeatRequests.stream().map(pickSeatRequest -> {
+            return SocketResponse.builder()
+                    .x(pickSeatRequest.getX())
+                    .y(pickSeatRequest.getY())
+                    .build();
+        }), "performID", performId);
     }
 
     @Override
@@ -93,15 +98,21 @@ public class PickSeatServiceImpl implements PickSeatService {
         return null;
     }
 
-
     @Override
-    public PickSeatDTO deletePickSeat() {
-        return null;
+    public Object deletePickSeat(List<DeletePickSeatRequest> deletePickSeatRequests, UUID performID) {
+        deletePickSeatRequests.forEach(deletePickSeatRequest -> {
+            pickSeatRepository.deleteByXAndY(deletePickSeatRequest.getX(),
+                    deletePickSeatRequest.getY(),
+                    performID
+            );
+        });
+
+        return Map.of("seats", deletePickSeatRequests.stream().map(deletePickSeatRequest -> {
+            return SocketResponse.builder()
+                    .x(deletePickSeatRequest.getX())
+                    .y(deletePickSeatRequest.getY())
+                    .build();
+        }).toList(), "performID", performID);
     }
 
-    @Override
-    public Socket getSocket() {
-        Socket socket = null;
-        return socket;
-    }
 }

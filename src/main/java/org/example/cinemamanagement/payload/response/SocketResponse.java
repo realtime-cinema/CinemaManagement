@@ -10,5 +10,4 @@ import java.util.UUID;
 public class SocketResponse {
     Integer x;
     Integer y;
-    UUID performId;
 }

@@ -18,7 +18,10 @@ public class SeatPriceController {
     @PostMapping
     public ResponseEntity<?> addSeatPrice(@RequestBody AddSeatPriceRequest req) {
         seatPriceService.addSeatPrice(req);
-        return ResponseEntity.ok("Message: Add seat price successfully");
+        return ResponseEntity.ok(DataResponse.builder()
+                .message("Seat price added successfully")
+                .data(null)
+                .build());
     }
 
     @GetMapping("/{performId}")
