@@ -1,10 +1,12 @@
 package org.example.cinemamanagement.controller;
 
+import org.example.cinemamanagement.dto.PickSeatDTO;
 import org.example.cinemamanagement.payload.request.PickSeatRequest;
 import org.example.cinemamanagement.payload.response.DataResponse;
+import org.example.cinemamanagement.payload.response.SocketResponse;
 import org.example.cinemamanagement.service.PickSeatService;
+import org.example.cinemamanagement.service.SocketIOService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +18,12 @@ import java.util.UUID;
 public class PickSeatController {
 
     PickSeatService pickSeatService;
+    SocketIOService socketIOService;
 
     @Autowired
-    public PickSeatController(PickSeatService pickSeatService) {
+    public PickSeatController(PickSeatService pickSeatService, SocketIOService socketIOService) {
         this.pickSeatService = pickSeatService;
+        this.socketIOService = socketIOService;
     }
 
     @GetMapping
@@ -32,7 +36,6 @@ public class PickSeatController {
 
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Get all picked seats successfully");
-        dataResponse.setStatus(HttpStatus.OK);
         dataResponse.setData(pickSeatService.getAllSeatsPickedOfPerform(performID));
 
         return ResponseEntity.ok(dataResponse);
@@ -42,11 +45,21 @@ public class PickSeatController {
     public ResponseEntity<?> addPickSeat(@PathVariable UUID performID,
                                          @RequestBody List<PickSeatRequest> pickSeatRequests) {
 
+        List<PickSeatDTO> data = pickSeatService.addPickSeat(pickSeatRequests, performID);
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Add pick seat successfully");
-        dataResponse.setStatus(HttpStatus.OK);
-        dataResponse.setData(pickSeatService.addPickSeat(pickSeatRequests, performID));
 
+        dataResponse.setData(data);
+
+        List<SocketResponse> socketResponses = data.stream().map(pickSeatDTO -> {
+            return SocketResponse.builder()
+                    .x(pickSeatDTO.getX())
+                    .y(pickSeatDTO.getY())
+                    .performId(pickSeatDTO.getPerformDTO().getId())
+                    .build();
+        }).toList();
+
+        socketIOService.emit("pick-seat", socketResponses);
         return ResponseEntity.ok(dataResponse);
     }
 

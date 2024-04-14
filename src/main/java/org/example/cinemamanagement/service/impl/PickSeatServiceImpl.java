@@ -1,5 +1,6 @@
 package org.example.cinemamanagement.service.impl;
 
+import io.socket.client.Socket;
 import org.example.cinemamanagement.dto.PickSeatDTO;
 import org.example.cinemamanagement.exception.ApiException;
 import org.example.cinemamanagement.exception.NotFoundException;
@@ -48,7 +49,7 @@ public class PickSeatServiceImpl implements PickSeatService {
         User user = userRepository.findById(userTemp.getId()).orElseThrow(
                 () -> new NotFoundException("User not found"));
 
-        return pickSeatRequests.stream().map(pickSeatRequest -> {
+        pickSeatRequests.forEach(pickSeatRequest -> {
             if (pickSeatRepository.findByPerformIdAndXAndY(performId, pickSeatRequest.getX(), pickSeatRequest.getY()).isPresent()) {
                 throw new ApiException("Seat already picked");
             }
@@ -65,8 +66,11 @@ public class PickSeatServiceImpl implements PickSeatService {
                     .y(pickSeatRequest.getY())
                     .build();
             pickSeatRepository.save(pickSeat);
-            return PickSeatMapper.toDTO(pickSeat);
-        }).toList();
+        });
+
+        return pickSeatRepository.findByUserId(user.getId()).stream()
+                .map(PickSeatMapper::toDTO)
+                .toList();
     }
 
     @Override
@@ -95,5 +99,11 @@ public class PickSeatServiceImpl implements PickSeatService {
     @Override
     public PickSeatDTO deletePickSeat() {
         return null;
+    }
+
+    @Override
+    public Socket getSocket() {
+        Socket socket = null;
+        return socket;
     }
 }

@@ -1,13 +1,13 @@
 package org.example.cinemamanagement.exception;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class ErrorMessage {
     private String message;

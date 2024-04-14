@@ -26,7 +26,11 @@ public class Tag {
     private String name;
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH
+    }, fetch = FetchType.LAZY)
     @JoinTable(
             name = "film_tag_relationship",
             joinColumns = @JoinColumn(name = "tag_id"),

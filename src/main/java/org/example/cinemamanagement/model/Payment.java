@@ -24,22 +24,27 @@ public class Payment {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH})
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.PERSIST,
+            CascadeType.REFRESH})
     private Cinema cinema;
 
     @Column(name = "date_create")
     private Date dateCreate;
+    @Column(name = "amount")
+    private Long amount;
+    @OneToMany(mappedBy = "payment", fetch = FetchType.LAZY)
+    private List<SeatPayment> seatPayments;
+
     @PrePersist
     protected void onCreate() {   // create Date when dateCreate saved in db first time
         dateCreate = new Date();
     }
-
-    @Column(name = "amount")
-    private Long amount;
-
-    @OneToMany(mappedBy = "payment", fetch = FetchType.LAZY)
-    private List<SeatPayment> seatPayments;
 }

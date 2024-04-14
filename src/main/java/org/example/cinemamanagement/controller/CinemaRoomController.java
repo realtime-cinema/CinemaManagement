@@ -4,7 +4,6 @@ import org.example.cinemamanagement.payload.request.AddCinemaRoomRequest;
 import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.CinemaRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +16,8 @@ public class CinemaRoomController {
 
     @GetMapping
     public ResponseEntity<?> getAllRoom() {
-
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Add cinema room successfully");
-        dataResponse.setStatus(HttpStatus.OK);
         dataResponse.setData(cinemaRoomService.getAllCinemaRooms());
 
         return ResponseEntity.ok(dataResponse);
@@ -31,7 +28,6 @@ public class CinemaRoomController {
 
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Add cinema room successfully");
-        dataResponse.setStatus(HttpStatus.OK);
         dataResponse.setData(cinemaRoomService.addCinemaRoom(addCinemaRoomRequest));
 
         return ResponseEntity.ok(dataResponse);
