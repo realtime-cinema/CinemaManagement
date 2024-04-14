@@ -4,6 +4,7 @@ import org.example.cinemamanagement.payload.request.AddSeatPriceRequest;
 import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.SeatPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ public class SeatPriceController {
 
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Get all seat price successfully");
+        dataResponse.setStatus(HttpStatus.OK);
         dataResponse.setData(seatPriceService.getAllSeatPrice(performId));
 
         return ResponseEntity.ok(dataResponse);
@@ -36,6 +38,7 @@ public class SeatPriceController {
         seatPriceService.deleteSeatPrice(id);
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Seat price deleted successfully");
+        dataResponse.setStatus(HttpStatus.OK);
         return ResponseEntity.ok(dataResponse);
     }
 }

@@ -1,6 +1,8 @@
 package org.example.cinemamanagement.service.impl;
 
 import org.example.cinemamanagement.dto.FilmPriceDTO;
+import org.example.cinemamanagement.exception.ApiException;
+import org.example.cinemamanagement.exception.NotFoundException;
 import org.example.cinemamanagement.model.Film;
 import org.example.cinemamanagement.model.FilmPrice;
 import org.example.cinemamanagement.payload.request.AddFilmPriceRequest;
@@ -29,11 +31,11 @@ public class FilmPriceServiceImpl implements FilmPriceService {
     @Override
     public String addFilmPrice(AddFilmPriceRequest req) {
         Film film = filmRepository.findById(req.getFilmId())
-                .orElseThrow(() -> new RuntimeException("Film not found"));
+                .orElseThrow(() -> new NotFoundException("Film not found"));
+        if (req.getType() == null)
+            throw new ApiException("Type not allow NULL");
         if (req.getPrice() == null)
-            throw new RuntimeException("Type not allow NULL");
-        if (req.getPrice() == null)
-            throw new RuntimeException("Price not allow NULL");
+            throw new ApiException("Price not allow NULL");
 
         FilmPrice filmPrice = new FilmPrice();
         filmPrice.setFilm(film);
@@ -47,7 +49,7 @@ public class FilmPriceServiceImpl implements FilmPriceService {
     @Override
     public List<FilmPriceDTO> getAllFilmPrice(UUID filmId) {
         Film film = filmRepository.findById(filmId)
-                .orElseThrow(() -> new RuntimeException("Film not found"));
+                .orElseThrow(() -> new NotFoundException("Film not found"));
 
         List<FilmPriceDTO> filmPrices = film.getFilmPrices().stream()
                 .map((element) -> modelMapper.map(element, FilmPriceDTO.class))

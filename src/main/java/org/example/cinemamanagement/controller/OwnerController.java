@@ -3,6 +3,7 @@ package org.example.cinemamanagement.controller;
 import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class OwnerController {
 
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Get amount of film successfully");
+        dataResponse.setStatus(HttpStatus.OK);
         dataResponse.setData(ownerService.getAmountOfFilm());
 
         return ResponseEntity.ok(dataResponse);

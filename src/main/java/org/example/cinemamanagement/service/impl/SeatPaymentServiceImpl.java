@@ -1,5 +1,6 @@
 package org.example.cinemamanagement.service.impl;
 
+import org.example.cinemamanagement.exception.NotFoundException;
 import org.example.cinemamanagement.model.Payment;
 import org.example.cinemamanagement.model.PickSeat;
 import org.example.cinemamanagement.model.SeatPayment;
@@ -29,11 +30,11 @@ public class SeatPaymentServiceImpl implements SeatPaymentService {
     public String addListSeatOfPayment(UUID paymentId, List<AddPickSeatRequest> listSeat) {
 
         Payment payment = paymentRepository.findById(paymentId)
-                .orElseThrow(() -> new RuntimeException("Payment not found"));
+                .orElseThrow(() -> new NotFoundException("Payment not found"));
 
         listSeat.stream().forEach(seat -> {
             PickSeat pickSeat = pickSeatRepository.findById(seat.getId())
-                    .orElseThrow(() -> new RuntimeException("Pick seat not found"));
+                    .orElseThrow(() -> new NotFoundException("Pick seat not found"));
         });
 
 

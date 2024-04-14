@@ -1,6 +1,8 @@
 package org.example.cinemamanagement.service.impl;
 
 import org.example.cinemamanagement.dto.CinemaRoomDTO;
+import org.example.cinemamanagement.exception.ApiException;
+import org.example.cinemamanagement.exception.NotFoundException;
 import org.example.cinemamanagement.mapper.CinemaRoomMapper;
 import org.example.cinemamanagement.model.Cinema;
 import org.example.cinemamanagement.model.CinemaLayout;
@@ -46,7 +48,7 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
     @Override
     public CinemaRoomDTO getCinemaRoomById(UUID id) {
         CinemaRoom cinemaRoom = cinemaRoomRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("CinemaRoom not found"));
+                .orElseThrow(() -> new NotFoundException("CinemaRoom not found"));
 
         return CinemaRoomMapper.toDTO(cinemaRoom);
     }
@@ -55,10 +57,10 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
     @Transactional
     public CinemaRoomDTO addCinemaRoom(AddCinemaRoomRequest addCinemaRoomRequest) {
         Cinema cinema = cinemaRepository.findById(addCinemaRoomRequest.getCinemaId())
-                .orElseThrow(() -> new RuntimeException("Cinema not found"));
+                .orElseThrow(() -> new NotFoundException("Cinema not found"));
 
         CinemaLayout layout = cinemaLayoutRepository.findById(addCinemaRoomRequest.getCinemaLayoutId())
-                .orElseThrow(() -> new RuntimeException("Cinema layout not found"));
+                .orElseThrow(() -> new NotFoundException("Cinema layout not found"));
 
         Optional<CinemaRoom> cinemaRoom = cinemaRoomRepository.findByNameAndCinemaId(addCinemaRoomRequest.getName(),
                 addCinemaRoomRequest.getCinemaId());
@@ -76,13 +78,13 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
             return CinemaRoomMapper.toDTO(newCinemaroom);
         }
 
-        throw new RuntimeException("Cinema room already exists");
+        throw new ApiException("Cinema room already exists");
     }
 
     @Override
     public void updateCinemaRoom(CinemaRoomDTO cinemaRoomDTO) {
         CinemaRoom cinemaRoom = cinemaRoomRepository.findById(cinemaRoomDTO.getId())
-                .orElseThrow(() -> new RuntimeException("CinemaRoom not found"));
+                .orElseThrow(() -> new NotFoundException("CinemaRoom not found"));
         if (cinemaRoomDTO.getName() != null)
             cinemaRoom.setName(cinemaRoomDTO.getName());
 

@@ -1,6 +1,8 @@
 package org.example.cinemamanagement.service.impl;
 
 import org.example.cinemamanagement.dto.CommentDTO;
+import org.example.cinemamanagement.exception.ApiException;
+import org.example.cinemamanagement.exception.NotFoundException;
 import org.example.cinemamanagement.model.Comment;
 import org.example.cinemamanagement.model.Film;
 import org.example.cinemamanagement.model.User;
@@ -48,7 +50,7 @@ public class CommentServiceImpl implements CommentService {
 
         User userTemp = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findById(userTemp.getId()).orElseThrow(
-                () -> new RuntimeException("User not found")
+                () -> new NotFoundException("User not found")
         );
 
         List<Comment> comments = commentRepository.findAllByFilmIdWithoutOfUser(filmID, user.getId());
@@ -77,13 +79,13 @@ public class CommentServiceImpl implements CommentService {
     public String addComment(AddCommentRequest addCommentRequest) {
         User userTemp = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findById(userTemp.getId()).orElseThrow(
-                () -> new RuntimeException("User not found")
+                () -> new NotFoundException("User not found")
         );
 
         Film film = filmRepository.findById(addCommentRequest.getDestId())
-                .orElseThrow(() -> new RuntimeException("Film not found"));
+                .orElseThrow(() -> new NotFoundException("Film not found"));
         if (addCommentRequest.getBody() == null || addCommentRequest.getBody().isBlank()) {
-            throw new RuntimeException("Comment not allow null or empty");
+            throw new ApiException("Comment not allow null or empty");
         }
 
         commentRepository.save(Comment.builder()
@@ -99,9 +101,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDTO updateComment(CommentDTO commentDTO) {
         Comment comment = commentRepository.findById(commentDTO.getCommentId())
-                .orElseThrow(() -> new RuntimeException("Comment not found"));
+                .orElseThrow(() -> new NotFoundException("Comment not found"));
         if (commentDTO.getBody() == null)
-            throw new RuntimeException("Comment not allow NULL");
+            throw new ApiException("Comment not allow NULL");
         comment.setBody(commentDTO.getBody());
         commentRepository.save(comment);
         return CommentDTO.builder()

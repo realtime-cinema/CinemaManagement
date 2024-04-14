@@ -5,6 +5,7 @@ import org.example.cinemamanagement.payload.request.AddAndDeleteManagerRequest;
 import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.CinemaManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,13 @@ public class ManagerCinemaController {
         if (cinemaManagerDTO == null) {
             return ResponseEntity.badRequest().body("User is already a manager of this cinema");
         }
-        return ResponseEntity.ok(cinemaManagerDTO);
+
+        DataResponse dataResponse = new DataResponse();
+        dataResponse.setMessage("Add manager successfully");
+        dataResponse.setStatus(HttpStatus.OK);
+        dataResponse.setData(cinemaManagerDTO);
+
+        return ResponseEntity.ok(dataResponse);
     }
 
     /*@DeleteMapping("/delete-manager")
@@ -59,6 +66,7 @@ public class ManagerCinemaController {
 
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Get total amount successfully");
+        dataResponse.setStatus(HttpStatus.OK);
         dataResponse.setData(cinemaManagerService.getTotalAmountOfCinemaInMonth());
 
         return ResponseEntity.ok(dataResponse);

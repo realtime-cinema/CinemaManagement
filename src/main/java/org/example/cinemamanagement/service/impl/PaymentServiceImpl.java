@@ -1,6 +1,8 @@
 package org.example.cinemamanagement.service.impl;
 
 import org.example.cinemamanagement.dto.PaymentDTO;
+import org.example.cinemamanagement.exception.ApiException;
+import org.example.cinemamanagement.exception.NotFoundException;
 import org.example.cinemamanagement.model.Cinema;
 import org.example.cinemamanagement.model.Payment;
 import org.example.cinemamanagement.model.PickSeat;
@@ -42,7 +44,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentDTO getPayment(UUID id) {
         Payment payment = paymentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Payment not found"));
+                .orElseThrow(() -> new NotFoundException("Payment not found"));
 
         PaymentDTO paymentDTO = new PaymentDTO();
         modelMapper.map(paymentDTO, Payment.class);
@@ -54,20 +56,20 @@ public class PaymentServiceImpl implements PaymentService {
     public String addPayment(AddPaymentRequest req) {
         User userTemp = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findById(userTemp.getId()).orElseThrow(
-                () -> new RuntimeException("User not found")
+                () -> new NotFoundException("User not found")
         );
 
         Cinema cinema = cinemaRepository.findById(req.getCinemaId())
-                .orElseThrow(() -> new RuntimeException("Cinema not found"));
+                .orElseThrow(() -> new NotFoundException("Cinema not found"));
 
         req.getPickSeats().stream().forEach(pickseat -> {
             PickSeat pickSeat = pickSeatRepository.findById(pickseat.getId())
-                    .orElseThrow(() -> new RuntimeException("PickSeat not found by Id: " + pickseat.getId()));
+                    .orElseThrow(() -> new NotFoundException("PickSeat not found by Id: " + pickseat.getId()));
         });
 
 
         if (req.getAmount() == null)
-            throw new RuntimeException("Error payment (amount is NULL)");
+            throw new ApiException("Error payment (amount is NULL)");
 
         Payment payment = new Payment();
         payment.setUser(user);

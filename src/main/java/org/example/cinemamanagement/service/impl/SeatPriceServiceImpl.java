@@ -1,6 +1,8 @@
 package org.example.cinemamanagement.service.impl;
 
 import org.example.cinemamanagement.dto.SeatPriceDTO;
+import org.example.cinemamanagement.exception.ApiException;
+import org.example.cinemamanagement.exception.NotFoundException;
 import org.example.cinemamanagement.model.Perform;
 import org.example.cinemamanagement.model.SeatPrice;
 import org.example.cinemamanagement.payload.request.AddSeatPriceRequest;
@@ -28,16 +30,16 @@ public class SeatPriceServiceImpl implements SeatPriceService {
     @Override
     public String addSeatPrice(AddSeatPriceRequest req) {
         Perform perform = performRepository.findById(req.getPerformId())
-                .orElseThrow(() -> new RuntimeException("Perform not found"));
+                .orElseThrow(() -> new NotFoundException("Perform not found"));
 
         if (req.getX() == null || req.getY() == null)
-            throw new RuntimeException("X or Y not allow NULL");
+            throw new ApiException("X or Y not allow NULL");
 
         if (seatPriceRepository.findByPerform_IdAndXAndY(req.getPerformId(), req.getX(), req.getY()) != null)
-            throw new RuntimeException("X and Y already exist");
+            throw new ApiException("X and Y already exist");
 
         if (req.getPrice() == null)
-            throw new RuntimeException("Price not allow NULL");
+            throw new ApiException("Price not allow NULL");
 
         SeatPrice seatPrice = new SeatPrice();
         seatPrice.setPerform(perform);
@@ -52,7 +54,7 @@ public class SeatPriceServiceImpl implements SeatPriceService {
     @Override
     public List<SeatPriceDTO> getAllSeatPrice(UUID performId) {
         Perform perform = performRepository.findById(performId)
-                .orElseThrow(() -> new RuntimeException("Perform not found"));
+                .orElseThrow(() -> new NotFoundException("Perform not found"));
 
         List<SeatPriceDTO> seatPrice = perform.getSeatPrices().stream()
                 .map((element) -> modelMapper.map(element, SeatPriceDTO.class))

@@ -4,6 +4,7 @@ import org.example.cinemamanagement.payload.request.AddPaymentRequest;
 import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ public class PaymentController {
 
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Get payment successfully");
+        dataResponse.setStatus(HttpStatus.OK);
         dataResponse.setData(paymentService.getPayment(id));
 
         return ResponseEntity.ok(dataResponse);
@@ -31,6 +33,7 @@ public class PaymentController {
         paymentService.addPayment(req);
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Add payment successfully");
+        dataResponse.setStatus(HttpStatus.OK);
         return ResponseEntity.ok(dataResponse);
     }
 }

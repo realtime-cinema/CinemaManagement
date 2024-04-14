@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.example.cinemamanagement.common.Role;
 import org.example.cinemamanagement.dto.CinemaManagerDTO;
+import org.example.cinemamanagement.exception.NotFoundException;
 import org.example.cinemamanagement.model.Cinema;
 import org.example.cinemamanagement.model.User;
 import org.example.cinemamanagement.repository.BusinessRepository;
@@ -76,7 +77,7 @@ public class CinemaManagerServiceImpl implements CinemaManagerService {
     public List<Object[]> getTotalAmountOfCinemaInMonth() {
         User userTemp = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findById(userTemp.getId()).orElseThrow(
-                () -> new RuntimeException("User not found")
+                () -> new NotFoundException("User not found")
         );
 
         LocalDate today = LocalDate.now();

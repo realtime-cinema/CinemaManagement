@@ -2,6 +2,8 @@ package org.example.cinemamanagement.service.impl;
 
 import io.socket.client.Socket;
 import org.example.cinemamanagement.dto.PickSeatDTO;
+import org.example.cinemamanagement.exception.ApiException;
+import org.example.cinemamanagement.exception.NotFoundException;
 import org.example.cinemamanagement.mapper.PickSeatMapper;
 import org.example.cinemamanagement.model.Perform;
 import org.example.cinemamanagement.model.PickSeat;
@@ -37,7 +39,7 @@ public class PickSeatServiceImpl implements PickSeatService {
     @Transactional
     public List<PickSeatDTO> addPickSeat(List<PickSeatRequest> pickSeatRequests, UUID performId) {
         Perform perform = performRepository.findById(performId).orElseThrow(
-                () -> new RuntimeException("Perform not found")
+                () -> new NotFoundException("Perform not found")
         );
 
         User userTemp = (User) SecurityContextHolder.getContext()
@@ -45,16 +47,16 @@ public class PickSeatServiceImpl implements PickSeatService {
                 .getPrincipal();
 
         User user = userRepository.findById(userTemp.getId()).orElseThrow(
-                () -> new RuntimeException("User not found"));
+                () -> new NotFoundException("User not found"));
 
         pickSeatRequests.forEach(pickSeatRequest -> {
             if (pickSeatRepository.findByPerformIdAndXAndY(performId, pickSeatRequest.getX(), pickSeatRequest.getY()).isPresent()) {
-                throw new RuntimeException("Seat already picked");
+                throw new ApiException("Seat already picked");
             }
 
             if (pickSeatRequest.getX() < 0 || pickSeatRequest.getX() > perform.getCinemaRoom().getCinemaLayout().getXIndex() ||
                     pickSeatRequest.getY() < 0 || pickSeatRequest.getY() > perform.getCinemaRoom().getCinemaLayout().getYIndex()) {
-                throw new RuntimeException("Seat out of range");
+                throw new ApiException("Seat out of range");
             }
 
             PickSeat pickSeat = PickSeat.builder()

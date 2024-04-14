@@ -1,6 +1,8 @@
 package org.example.cinemamanagement.service.impl;
 
 import org.example.cinemamanagement.dto.PerformDTO;
+import org.example.cinemamanagement.exception.ApiException;
+import org.example.cinemamanagement.exception.NotFoundException;
 import org.example.cinemamanagement.mapper.PerformMapper;
 import org.example.cinemamanagement.model.*;
 import org.example.cinemamanagement.payload.request.AddPerformRequest;
@@ -50,9 +52,9 @@ public class PerformServiceImpl implements PerformService {
     public PerformDTO addPerform(AddPerformRequest addPerformRequest) {
         CinemaRoom cinemaRoom = cinemaRoomRepository
                 .findById(addPerformRequest.getCinemaRoomId())
-                .orElseThrow(() -> new RuntimeException("Cinema room not found"));
+                .orElseThrow(() -> new NotFoundException("Cinema room not found"));
         Film film = filmRepository.findById(addPerformRequest.getFilmId())
-                .orElseThrow(() -> new RuntimeException("Film not found"));
+                .orElseThrow(() -> new NotFoundException("Film not found"));
 
         ViewType viewType = viewTypeRepository.findByViewType(addPerformRequest.getViewType()).
                 orElseGet(() -> viewTypeRepository.save(
@@ -73,7 +75,7 @@ public class PerformServiceImpl implements PerformService {
                 addPerformRequest.getStartTime(),
                 addPerformRequest.getEndTime()
         ).isEmpty()) {
-            throw new RuntimeException("Time for perform is not available");
+            throw new ApiException("Time for perform is not available");
         }
 
         Perform perform = performRepository.save(

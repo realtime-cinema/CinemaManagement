@@ -1,6 +1,7 @@
 package org.example.cinemamanagement.configuration;
 
 import lombok.RequiredArgsConstructor;
+import org.example.cinemamanagement.exception.NotFoundException;
 import org.example.cinemamanagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +22,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findUserByEmail(username).orElseThrow(() -> new RuntimeException("User not found"));
+        return username -> userRepository.findUserByEmail(username).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     @Bean
