@@ -1,6 +1,8 @@
 package org.example.cinemamanagement.service.impl;
 
 import org.example.cinemamanagement.dto.FilmDTO;
+import org.example.cinemamanagement.exception.ApiException;
+import org.example.cinemamanagement.exception.NotFoundException;
 import org.example.cinemamanagement.mapper.FilmMapper;
 import org.example.cinemamanagement.model.Film;
 import org.example.cinemamanagement.model.Tag;
@@ -30,7 +32,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public FilmDTO getFilmById(UUID id) {
         Film film = filmRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Film not found"));
+                .orElseThrow(() -> new NotFoundException("Film not found"));
         return FilmMapper.toDTO(film);
     }
 
@@ -38,7 +40,7 @@ public class FilmServiceImpl implements FilmService {
     public FilmDTO addFilm(AddFilmRequest addFilmRequest) {
         Optional<Film> film = filmRepository.findFilmByTitle(addFilmRequest.getTitle());
         if (film.isPresent()) {
-            throw new RuntimeException("Film already exists");
+            throw new ApiException("Film already exists");
         }
 
         List<Tag> tags = addFilmRequest.getTags().stream().map(tag -> {
@@ -69,7 +71,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public FilmDTO updateFilm(FilmDTO filmDTO) {
         Film film = filmRepository.findById(filmDTO.getId())
-                .orElseThrow(() -> new RuntimeException("Film not found"));
+                .orElseThrow(() -> new NotFoundException("Film not found"));
         if (filmDTO.getTitle() != null)
             film.setTitle(filmDTO.getTitle());
 

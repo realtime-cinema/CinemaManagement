@@ -4,6 +4,7 @@ import org.example.cinemamanagement.payload.request.AddPerformRequest;
 import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.PerformService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ public class PerformController {
 
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Get all performs successfully");
+        dataResponse.setStatus(HttpStatus.OK);
         dataResponse.setData(performService.getAllPerforms());
 
         return ResponseEntity.ok(dataResponse);
@@ -38,6 +40,7 @@ public class PerformController {
     {
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Add perform successfully");
+        dataResponse.setStatus(HttpStatus.OK);
         dataResponse.setData(performService.addPerform(addPerformRequest));
 
         return ResponseEntity.ok(dataResponse);

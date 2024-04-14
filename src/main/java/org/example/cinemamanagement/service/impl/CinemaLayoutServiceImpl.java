@@ -1,6 +1,8 @@
 package org.example.cinemamanagement.service.impl;
 
 import org.example.cinemamanagement.dto.CinemaLayoutDTO;
+import org.example.cinemamanagement.exception.ApiException;
+import org.example.cinemamanagement.exception.NotFoundException;
 import org.example.cinemamanagement.mapper.CinemaLayoutMapper;
 import org.example.cinemamanagement.model.CinemaLayout;
 import org.example.cinemamanagement.payload.request.AddCinemaLayoutRequest;
@@ -33,7 +35,7 @@ public class CinemaLayoutServiceImpl implements CinemaLayoutService {
     public CinemaLayoutDTO getCinemaLayout(UUID id) {
         CinemaLayout layout = cinemaLayoutRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Cinema layout not found with id: " + id));
+                        new NotFoundException("Cinema layout not found with id: " + id));
         return CinemaLayoutMapper.toDTO(layout);
     }
 
@@ -43,7 +45,7 @@ public class CinemaLayoutServiceImpl implements CinemaLayoutService {
         Optional<CinemaLayout> layout = cinemaLayoutRepository.findByXIndexAndYIndex(cinemaLayoutRequest.getXIndex()
                 , cinemaLayoutRequest.getYIndex());
         if (layout.isPresent()) {
-            throw new RuntimeException("Cinema layout already exists with xIndex: "
+            throw new ApiException("Cinema layout already exists with xIndex: "
                     + cinemaLayoutRequest.getXIndex() + " and yIndex: " + cinemaLayoutRequest.getYIndex());
         }
 
@@ -61,7 +63,7 @@ public class CinemaLayoutServiceImpl implements CinemaLayoutService {
         CinemaLayout layout = cinemaLayoutRepository
                 .findById(idLayout)
                 .orElseThrow(() ->
-                        new RuntimeException("Cinema layout not found with id: " + idLayout));
+                        new NotFoundException("Cinema layout not found with id: " + idLayout));
         if (cinemaLayoutDTO.getXIndex() != null
                 && !cinemaLayoutDTO.getXIndex().equals(layout.getXIndex()))
             layout.setXIndex(cinemaLayoutDTO.getXIndex());
@@ -79,7 +81,7 @@ public class CinemaLayoutServiceImpl implements CinemaLayoutService {
     public void deleteCinemaLayout(UUID id) {
         CinemaLayout layout = cinemaLayoutRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Cinema layout not found with id: " + id));
+                        new NotFoundException("Cinema layout not found with id: " + id));
 
         cinemaLayoutRepository.deleteById(id);
     }

@@ -2,7 +2,6 @@ package org.example.cinemamanagement.controller;
 
 import org.example.cinemamanagement.dto.CommentDTO;
 import org.example.cinemamanagement.payload.request.AddCommentRequest;
-import org.example.cinemamanagement.payload.response.CommentResponse;
 import org.example.cinemamanagement.payload.response.DataResponse;
 import org.example.cinemamanagement.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -25,6 +23,7 @@ public class CommentController {
 
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Add comment successfully");
+        dataResponse.setStatus(HttpStatus.OK);
         dataResponse.setData(commentService.addComment(addCommentRequest));
 
         return ResponseEntity.ok(dataResponse);
@@ -36,6 +35,7 @@ public class CommentController {
 
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Get all comment without current user successfully");
+        dataResponse.setStatus(HttpStatus.OK);
         dataResponse.setData(commentService
                 .getAllCommentsOfFilmWithoutCommentOfCurrentUser(filmId));
 
@@ -48,6 +48,7 @@ public class CommentController {
 
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Get comment successfully");
+        dataResponse.setStatus(HttpStatus.OK);
         dataResponse.setData(commentService
                 .getCommentByFilmIdAndUserId(commentDTO));
 
@@ -59,6 +60,7 @@ public class CommentController {
 
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Update comment successfully");
+        dataResponse.setStatus(HttpStatus.OK);
         dataResponse.setData(commentService.updateComment(commentDTO));
 
         return ResponseEntity.ok(dataResponse);
@@ -67,8 +69,11 @@ public class CommentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteComment(@PathVariable UUID id) {
         commentService.deleteComment(id);
+
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Comment deleted successfully");
+        dataResponse.setStatus(HttpStatus.OK);
+
         return ResponseEntity.ok(dataResponse);
     }
 }

@@ -3,6 +3,7 @@ package org.example.cinemamanagement.service.impl;
 import org.example.cinemamanagement.dto.CinemaDTO;
 import org.example.cinemamanagement.dto.CinemaLayoutDTO;
 import org.example.cinemamanagement.dto.CinemaManagerDTO;
+import org.example.cinemamanagement.exception.NotFoundException;
 import org.example.cinemamanagement.mapper.CinemaLayoutMapper;
 import org.example.cinemamanagement.mapper.CinemaMapper;
 import org.example.cinemamanagement.model.Cinema;
@@ -42,7 +43,7 @@ public class CinemaServiceImpl implements CinemaService {
     @Override
     public CinemaDTO getCinema(UUID id) {
         Cinema cinema = cinemaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cinema not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Cinema not found"));
 
         return CinemaMapper.toDTO(cinema);
     }
@@ -63,7 +64,7 @@ public class CinemaServiceImpl implements CinemaService {
     @Override
     public CinemaDTO updateCinema(CinemaDTO cinemaDTO) {
         Cinema cinema = cinemaRepository.findById(cinemaDTO.getId())
-                        .orElseThrow(() -> new RuntimeException("Cinema not found with id: " + cinemaDTO.getId()));
+                        .orElseThrow(() -> new NotFoundException("Cinema not found with id: " + cinemaDTO.getId()));
 
         cinema.setName(cinemaDTO.getName());
         cinema.setVariant(cinemaDTO.getVariant());
@@ -82,10 +83,10 @@ public class CinemaServiceImpl implements CinemaService {
     @Override
     public CinemaManagerDTO deleteCinemaManagerOutOfCinema(String emailUser, UUID idCinema) {
         Cinema cinema = cinemaRepository.findById(idCinema)
-                .orElseThrow(() -> new RuntimeException("Cinema not found with id: " + idCinema));
+                .orElseThrow(() -> new NotFoundException("Cinema not found with id: " + idCinema));
 
         User user = userRepository.findUserByEmail(emailUser)
-                .orElseThrow(() -> new RuntimeException("User not found with email: " + emailUser));
+                .orElseThrow(() -> new NotFoundException("User not found with email: " + emailUser));
 
         cinema.getCinemaManagers().remove(user);
         cinemaRepository.save(cinema);
@@ -105,7 +106,7 @@ public class CinemaServiceImpl implements CinemaService {
                 .yIndex(cinemaLayoutDTO.getYIndex())
                 .build();
         Cinema cinema = cinemaRepository.findById(cinemaID)
-                .orElseThrow(() -> new RuntimeException("Cinema not found with id: " + cinemaID));
+                .orElseThrow(() -> new NotFoundException("Cinema not found with id: " + cinemaID));
         if (cinemaLayoutRepository.findByXIndexAndYIndex(cinemaLayout.getXIndex(), cinemaLayout.getYIndex()).isPresent())
                 return null;
 
@@ -122,7 +123,7 @@ public class CinemaServiceImpl implements CinemaService {
     @Override
     public List<CinemaLayoutDTO> getCinemaLayoutByCinemaId(UUID id) {
         Cinema cinema = cinemaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cinema not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Cinema not found with id: " + id));
 
         return cinema.getCinemaLayouts().stream()
                 .map(CinemaLayoutMapper::toDTO)
