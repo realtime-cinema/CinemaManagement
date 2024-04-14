@@ -67,8 +67,11 @@ public class PickSeatController {
 
     @DeleteMapping
     public ResponseEntity<?> deletePickSeat(@RequestBody List<DeletePickSeatRequest> DeletePickSeatRequests) {
+
+        Object data = pickSeatService.deletePickSeat(DeletePickSeatRequests);
+        socketIOService.emit("pick-seat", data);
         return ResponseEntity.ok(DataResponse.builder()
-                .data(pickSeatService.deletePickSeat(DeletePickSeatRequests))
+                .data(data)
                 .message("Delete pick seat successfully")
                 .build());
     }

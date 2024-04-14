@@ -16,5 +16,5 @@ public interface PickSeatService {
 
     public List<PickSeatDTO> addPickSeat(List<PickSeatRequest> pickSeatRequests, UUID performId);
 
-    String deletePickSeat(List<DeletePickSeatRequest> deletePickSeatRequests);
+    Object deletePickSeat(List<DeletePickSeatRequest> deletePickSeatRequests);
 }

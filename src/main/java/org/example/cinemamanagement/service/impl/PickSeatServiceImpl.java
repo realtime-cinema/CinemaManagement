@@ -7,6 +7,7 @@ import org.example.cinemamanagement.model.PickSeat;
 import org.example.cinemamanagement.model.User;
 import org.example.cinemamanagement.payload.request.DeletePickSeatRequest;
 import org.example.cinemamanagement.payload.request.PickSeatRequest;
+import org.example.cinemamanagement.payload.response.SocketResponse;
 import org.example.cinemamanagement.repository.PerformRepository;
 import org.example.cinemamanagement.repository.PickSeatRepository;
 import org.example.cinemamanagement.repository.UserRepository;
@@ -94,14 +95,19 @@ public class PickSeatServiceImpl implements PickSeatService {
     }
 
     @Override
-    public String deletePickSeat(List<DeletePickSeatRequest> deletePickSeatRequests) {
+    public Object deletePickSeat(List<DeletePickSeatRequest> deletePickSeatRequests) {
         deletePickSeatRequests.forEach(deletePickSeatRequest -> {
             pickSeatRepository.deleteByXAndY(deletePickSeatRequest.getX(),
                     deletePickSeatRequest.getY(),
                     deletePickSeatRequest.getPerformID()
             );
         });
-
-        return "Delete pick seat successfully";
+        return deletePickSeatRequests.stream().map(deletePickSeatRequest -> {
+            return SocketResponse.builder()
+                    .x(deletePickSeatRequest.getX())
+                    .y(deletePickSeatRequest.getY())
+                    .performID(deletePickSeatRequest.getPerformID())
+                    .build();
+        }).toList();
     }
 }
