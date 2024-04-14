@@ -21,7 +21,7 @@ public class FilmController {
 
     @GetMapping
     public ResponseEntity<?> getFilms() {
-
+        System.out.println("Get all films");
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Get all films successfully");
         dataResponse.setStatus(HttpStatus.OK);

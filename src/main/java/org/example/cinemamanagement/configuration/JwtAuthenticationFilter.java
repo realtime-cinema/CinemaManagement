@@ -1,5 +1,6 @@
 package org.example.cinemamanagement.configuration;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.rmi.server.ExportException;
 
 @Component
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain)
             throws ServletException, IOException {
-
+        try {
             final String authorizationHeader = request.getHeader("Authorization");
             final String jwt;
             final String userEmail;
@@ -44,5 +46,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
             }
-            filterChain.doFilter(request, response);
-}}
+        }
+        catch (ExpiredJwtException e) {
+//            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token is expired");
+//            i test on postman and don't see any happens? just 403 forbidden and without messeage
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token is expired");
+        }
+    }
+}
