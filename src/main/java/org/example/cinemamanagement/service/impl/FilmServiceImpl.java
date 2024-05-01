@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -105,8 +106,17 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public List<FilmDTO> getAllFilms() {
-        return filmRepository.findAll().stream()
+    public List<FilmDTO> getAllFilms(String title) {
+        if (title == null || title.isEmpty() || title.isBlank())
+            return filmRepository.findAll().stream()
+                    .map(FilmMapper::toDTO).collect(Collectors.toList());
+
+        return filmRepository.findAll(title).stream()
                 .map(FilmMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FilmDTO> getFilmByParams(Map<String, String> params) {
+        return List.of();
     }
 }

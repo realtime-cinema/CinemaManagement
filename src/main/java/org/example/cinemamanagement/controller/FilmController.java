@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -23,11 +24,10 @@ public class FilmController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getFilms() {
-
+    public ResponseEntity<?> getFilms(@RequestParam Map<String, String> params) {
         DataResponse dataResponse = new DataResponse();
         dataResponse.setMessage("Get all films successfully");
-        dataResponse.setData(filmService.getAllFilms());
+        dataResponse.setData(filmService.getAllFilms(params.get("title")));
 
         return ResponseEntity.ok(dataResponse);
     }

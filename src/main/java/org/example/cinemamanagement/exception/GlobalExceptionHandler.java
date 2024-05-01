@@ -11,6 +11,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ResponseEntity<?> handleNotFoundException(RuntimeException ex) {
+        System.out.println("ex = " + ex);
         ErrorMessage errorMessage = ErrorMessage.builder()
                 .statusCode(HttpStatus.NOT_FOUND.value())
                 .timestamp(new java.sql.Timestamp(System.currentTimeMillis()))

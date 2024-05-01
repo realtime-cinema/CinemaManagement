@@ -72,7 +72,6 @@ public class GetPaymentStatusService {
         StringBuilder resultJsonStr = new StringBuilder();
         String line;
         while ((line = rd.readLine()) != null) {
-
             resultJsonStr.append(line);
         }
 

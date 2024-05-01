@@ -4,6 +4,7 @@ import org.example.cinemamanagement.dto.FilmDTO;
 import org.example.cinemamanagement.payload.request.AddFilmRequest;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface FilmService {
@@ -16,5 +17,7 @@ public interface FilmService {
 
     public void deleteFilm(UUID id);
 
-    public List<FilmDTO> getAllFilms();
+    public List<FilmDTO> getAllFilms(String title);
+
+    public List<FilmDTO> getFilmByParams(Map<String,String> params);
 }
