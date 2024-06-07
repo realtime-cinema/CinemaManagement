@@ -40,4 +40,3 @@ public interface BusinessRepository extends JpaRepository<User, UUID> {
 
 
 }
-
